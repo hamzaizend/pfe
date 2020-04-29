@@ -1,5 +1,8 @@
 <?php
 session_start();
+$bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
+
+
 ?>
 
 <!DOCTYPE html>
@@ -180,6 +183,9 @@ In this section you will find activities to help you learn the meaning, pronunci
                                     <h3>Grammar</h3>
                                     <a class="primary-btn text-uppercase" href="course-detail.php">View course</a>
                                 </li>
+                                
+                      
+                                   
                                 <li class="justify-content-between d-flex">
                                     <h3>Skills </h3>
                                     <a class="primary-btn text-uppercase" href="course-detail2.php">View course</a>
@@ -224,48 +230,147 @@ In this section you will find activities to help you learn the meaning, pronunci
                     </ul>
                     <a href="#" class="primary-btn2 text-uppercase enroll rounded-0 text-white">Enroll the course</a>
 
-                    <h4 class="title">Reviews</h4>
+                    <h4 class="title">Notes</h4>
                     <div class="content">
                         <div class="review-top row pt-40">
                             <div class="col-lg-12">
-                                <h6 class="mb-15">Provide Your Rating</h6>
+                                <h3 class="mb-15">Grammar Tests</h3>
                                 <div class="d-flex flex-row reviews justify-content-between">
-                                    <span>Quality</span>
-                                    <div class="star">
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star"></i>
-                                        <i class="ti-star"></i>
-                                    </div>
-                                    <span>Outstanding</span>
+                                    <strong>Test 1</strong>
+                                       <?php
+
+                  $etat="Test Réussi";                 
+$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
+$req->execute(array(1,$etat));
+$ok=$req->rowCount();
+if($ok == 0){
+  echo 'Test Pas réussi';
+}else{
+  echo 'Test réussi';
+}
+
+
+
+
+
+
+                       ?>
+                                    
                                 </div>
                                 <div class="d-flex flex-row reviews justify-content-between">
-                                    <span>Puncuality</span>
-                                    <div class="star">
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star"></i>
-                                        <i class="ti-star"></i>
-                                    </div>
-                                    <span>Outstanding</span>
+                                    <strong>Test 2</strong>
+                                   
+                                     <?php
+
+                  $etat="Test Réussi";                 
+$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
+$req->execute(array(2,$etat));
+$ok=$req->rowCount();
+if($ok == 0){
+  echo 'Test Pas réussi';
+}else{
+  echo 'Test réussi';
+}
+
+
+
+
+
+
+                       ?>
                                 </div>
                                 <div class="d-flex flex-row reviews justify-content-between">
-                                    <span>Quality</span>
-                                    <div class="star">
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star"></i>
-                                        <i class="ti-star"></i>
-                                    </div>
-                                    <span>Outstanding</span>
+                                    <strong>Test 3</strong>
+                                    
+                                     <?php
+
+                  $etat="Test Réussi";                 
+$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
+$req->execute(array(3,$etat));
+$ok=$req->rowCount();
+if($ok == 0){
+  echo 'Test Pas réussi';
+}else{
+  echo 'Test réussi';
+}
+
+
+
+
+
+
+                       ?>
+                                </div>
+                                <div class="d-flex flex-row reviews justify-content-between">
+                                    <strong>Test 4</strong>
+                                   
+                                     <?php
+
+                  $etat="Test Réussi";                 
+$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
+$req->execute(array(4,$etat));
+$ok=$req->rowCount();
+if($ok == 0){
+  echo 'Test Pas réussi';
+}else{
+  echo 'Test réussi';
+}
+
+
+
+
+
+
+                       ?>
+                                </div>
+                                <div class="d-flex flex-row reviews justify-content-between">
+                                    <strong>Test 5</strong>
+                                   
+                                     <?php
+
+                  $etat="Test Réussi";                 
+$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
+$req->execute(array(5,$etat));
+$ok=$req->rowCount();
+if($ok == 0){
+  echo 'Test Pas réussi';
+}else{
+  echo 'Test réussi';
+}
+
+
+
+
+
+
+                       ?>
                                 </div>
                             </div>
                         </div>
+                        <br>
+                        <div class="review-top row pt-40">
+                            <div class="col-lg-12">
+                                <h3 class="mb-15">Skills Tests</h3>
+                                <div class="d-flex flex-row reviews justify-content-between">
+                                    <strong>Test 1</strong>
+                                       
+                                    
+                                </div>
+                                <div class="d-flex flex-row reviews justify-content-between">
+                                    <strong>Test 2</strong>
+                                   
+                                     
+                                </div>
+                                <div class="d-flex flex-row reviews justify-content-between">
+                                    <strong>Test 3</strong>
+                                    
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
                         <div class="feedeback">
-                            <h6>Your Feedback</h6>
+                            <h6>Your Feedback about The tests </h6>
                             <textarea name="feedback" class="form-control" cols="10" rows="10"></textarea>
                             <div class="mt-10 text-right">
                                 <a href="#" class="primary-btn2 text-right rounded-0 text-white">Submit</a>
