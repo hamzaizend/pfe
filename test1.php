@@ -1,4 +1,8 @@
 <?php
+session_start();
+
+$bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
+
 $score = 0;
 if(isset($_POST['submit'])){
   if(isset($_POST['choix']) AND $_POST['choix'] == 'of' ){
@@ -50,8 +54,18 @@ $resultat7 =" la réponse est : ABOUT";
 $resultat8 =" la réponse est : AT";
   }
   $resultatt = "<h1> Total score is ".$score." ".' out of 8 </h1>';
+
+
+
+if($score == 8){
+  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
+  $insert->execute(array(1,'Test Réussi'));
+}elseif($score != 8){
+  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
+  $insert->execute(array(1,'Test Pas Réussi'));
 }
 
+}
 
 
 

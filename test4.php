@@ -1,3 +1,113 @@
+<?php
+session_start();
+$bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
+
+$text1=$_POST['text1'];
+$text2=$_POST['text2'];
+$text3=$_POST['text3'];
+$text4=$_POST['text4'];
+$text5=$_POST['text5'];
+$text6=$_POST['text6'];
+$text7=$_POST['text7'];
+$text8=$_POST['text8'];
+$text9=$_POST['text9'];
+$text10=$_POST['text10'];
+$text11=$_POST['text11'];
+$text12=$_POST['text12'];
+
+$score=0;
+
+          if(isset($_POST['submit'])) {
+            if(isset($_POST['text1']) && $_POST['text1'] == '-'){
+              $score++;
+              $resultat1 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat1 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text2']) && $_POST['text2'] == '-'){
+              $score++;
+              $resultat2 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat2 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text3']) && $_POST['text3'] == '-'){
+              $score++;
+              $resultat3 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat3 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text4']) && $_POST['text4'] == 'the'){
+              $score++;
+              $resultat4 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat4 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text5']) && $_POST['text5'] == 'the'){
+              $score++;
+              $resultat5 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat5 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text6']) && $_POST['text6'] == '-'){
+              $score++;
+              $resultat6 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat6 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text7']) && $_POST['text7'] == '-'){
+              $score++;
+              $resultat7 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat7 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text8']) && $_POST['text8'] == 'the'){
+              $score++;
+              $resultat8 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat8 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text9']) && $_POST['text9'] == '-'){
+              $score++;
+              $resultat9 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat9 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text10']) && $_POST['text10'] == 'the'){
+              $score++;
+              $resultat10 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat10 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text11']) && $_POST['text11'] == 'the'){
+              $score++;
+              $resultat11 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat11 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text12']) && $_POST['text12'] == '-'){
+              $score++;
+              $resultat12 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat12 = "<font color='red'>  *  </font>";
+            }
+
+
+
+          
+            
+
+if($score == 12){
+  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
+  $insert->execute(array(4,'Test Réussi'));
+}elseif($score != 12){
+  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
+  $insert->execute(array(4,'Test Pas Réussi'));
+}
+
+}
+             
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -193,178 +303,42 @@
                 
             <p>* Complete the sentences with 'the' or '-' if no article is needed. *</p></div><br />
 
+<form method="POST" action="">
+<p> 1 : What time do you finish  <input type="text" name="text1" class="check003" id="input001" size="5"  value="<?php if(isset($text1)){
+  echo $text1; }?>"/><text class="button002" id="check001"></text> work ?  <?php echo $resultat1; ?><br> <br>
 
-<p> 1 : What time do you finish  <input type="text" class="check003" id="input001" size="5" /><text class="button002" id="check001"></text> work ?<br> <br>
+  2 : He's in <input id="input002" size="5" name="text2"  value="<?php if(isset($text2)){
+  echo $text2; }?>"/><text class="button002" id="check002"></text> India . <?php echo $resultat2; ?><br><br>
 
-  2 : He's in <input id="input002" size="5" /><text class="button002" id="check002"></text> India .<br><br>
-
-  3 : When she finishes  <input id="input003" size="5" /> <text class="button002" id="check003"></text> school , she wants to study medecine <input  id="input004" size="5" /><text class="button002" id="check004"></text> university .<br><br>
+  3 : When she finishes  <input name="text3" id="input003" size="5"  value="<?php if(isset($text3)){
+  echo $text3; }?>"/> <text class="button002" id="check003"></text><?php echo $resultat3; ?> school , she wants to study medecine <input  name="text4" id="input004" size="5"  value="<?php if(isset($text4)){
+  echo $text4; }?>"/><text class="button002" id="check004"></text> university .<?php echo $resultat4; ?><br><br>
    
-   4 : <input id="input005" size="5" /><text class="button002" id="check005"></text> Nile is the longest river in 
- <input id="input006" size="5" /><text class="button002" id="check006"></text> Africa . It flows north from  <input type="text"  id="input007" size="5" /><text class="button002" id="check007"></text> Lake Victoria .<br>
+   4 : <input id="input005" name="text5" size="5"  value="<?php if(isset($text5)){
+  echo $text5; }?>"/><text class="button002" id="check005"></text><?php echo $resultat5; ?> Nile is the longest river in 
+ <input id="input006" name="text6" size="5"  value="<?php if(isset($text6)){
+  echo $text6; }?>"/><text class="button002" id="check006"></text> <?php echo $resultat6; ?>Africa . It flows north from  <input type="text"  id="input007" size="5" name="text7"  value="<?php if(isset($text7)){
+  echo $text7; }?>"/><text class="button002" id="check007"></text><?php echo $resultat7; ?> Lake Victoria .<br>
    <br>
     
-    5 : He's at <input type="text"  id="input008" size="5" /><text class="button002" id="check008"></text> hospital visiting his mum .<br><br>
+    5 : He's at <input type="text"  name="text8" id="input008" size="5"  value="<?php if(isset($text8)){
+  echo $text8; }?>"/><text class="button002" id="check008"></text><?php echo $resultat8; ?> hospital visiting his mum .<br><br>
 
-  6 : I'm really tired . I'm going to go <input  id="input009" size="5" /><text class="button002" id="check009"></text> home and go to <input  id="input010" size="5" /><text class="button002" id="check010"></text> bed early .<br>
+  6 : I'm really tired . I'm going to go <input  name="text9" id="input009" size="5"  value="<?php if(isset($text9)){
+  echo $text9; }?>"/><text class="button002" id="check009"></text> <?php echo $resultat9; ?>home and go to <input  name="text10" id="input010" size="5"  value="<?php if(isset($text10)){
+  echo $text10; }?>"/><text class="button002" id="check010"></text><?php echo $resultat10; ?> bed early .<br>
 <br>
-7 : They're in <input  id="input011" size="5" /><text class="button002" id="check011"></text> Alps on a climbing holiday .<br>
+7 : They're in <input name="text11" id="input011" size="5"  value="<?php if(isset($text11)){
+  echo $text11; }?>"/><text class="button002" id="check011"></text> <?php echo $resultat11; ?> Alps on a climbing holiday .<br>
 <br>
-8 : They caught him and he was sent to <input  id="input012" size="5" /><text class="button002" id="check012"></text> prison .</p>
+8 : They caught him and he was sent to <input  name="text12" id="input012" size="5"  value="<?php if(isset($text12)){
+  echo $text12; }?>"/><text class="button002" id="check012"></text><?php echo $resultat12; ?> prison .</p>
 
 
-            <div id="disappear001"><div id="center001"><button class="button001" onclick="submit001()">Submit</button></div></div><br />
-            <div id="center001"><p id="message001"></p><p id="reload001"></p></div>
-                <br />
-            <br />
-            </div>
-    </div>
-             <script>
-        var g;
-        var h;
-        var i;
-        var j;
-        var k;
-        var l;
-        var m;
-        var n;
-        var o;
-        var p;
-        var q;
-        var r;
-        function submit001() {
-            b = input001.value;
-            c = input002.value;
-            d = input003.value;
-            e = input004.value;
-            f = input005.value;
-            s = input006.value;
-            t = input007.value;
-            u = input008.value;
-            v = input009.value;
-            w = input010.value;
-            x = input011.value;
-            y = input012.value;
-            if (b == "-") {
-                g = 1;
-                input001.value = b;
-                check001.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input001.value = b;
-                check001.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (c == "-") {
-                h = 1
-                input002.value = c;
-                check002.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input002.value = c;
-                check002.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (d == "-") {
-                i = 1;
-                input003.value = d;
-                check003.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input003.value = d;
-                check003.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (e == "the" || e == "The") {
-                j = 1;
-                input004.value = e;
-                check004.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input004.value = e;
-                check004.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (f == "the" || f == "The") {
-                k = 1;
-                input005.value = f;
-                check005.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input005.value = f;
-                check005.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (s == "-") {
-                l = 1;
-                input006.value = s;
-                check006.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input006.value = s;
-                check006.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-             if (t == "-") {
-                m = 1;
-                input007.value = t;
-                check007.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input007.value = t;
-                check007.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-             if (u == "the" || u == "The") {
-                n = 1;
-                input008.value = u;
-                check008.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input008.value = u;
-                check008.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (v == "-") {
-                o = 1;
-                input009.value = v;
-                check009.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input009.value = v;
-                check009.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-            if (w == "the" || w == "The") {
-                p = 1;
-                input010.value = w;
-                check010.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input010.value = w;
-                check010.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-            if (x == "the" || x == "The") {
-                q = 1;
-                input011.value = x;
-                check011.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input011.value = x;
-                check011.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-            if (y == "-") {
-                r = 1;
-                input012.value = y;
-                check012.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input012.value = y;
-                check012.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (g == 1 && h == 1 && i == 1 && j == 1 && k == 1 && l == 1 && m == 1 && n == 1 && m == 1 && n == 1 && o == 1 && p == 1 && q == 1 && r == 1) {
-                message001.innerHTML = "Congratulation! You have successfully finished this quiz.";
-                disappear001.innerHTML = "";
-                reload001.innerHTML = "<div id=center001><button class=button001 onclick=repeat001()>Repeat</button></div>";
-            }
-        }
-
-            function repeat001() {
-                location.reload();
-            }
-    </script>           
-           
-                    
-
-                        
+            <div id="disappear001"><div id="center001"><button class="button001" name="submit" >Submit</button></div></div><br />
+                 
+              
+               </form>         
                         
 
                       

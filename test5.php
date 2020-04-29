@@ -1,3 +1,100 @@
+<?php
+session_start();
+$bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
+
+$text1=$_POST['text1'];
+$text2=$_POST['text2'];
+$text3=$_POST['text3'];
+$text4=$_POST['text4'];
+$text5=$_POST['text5'];
+$text6=$_POST['text6'];
+$text7=$_POST['text7'];
+$text8=$_POST['text8'];
+$text9=$_POST['text9'];
+$text10=$_POST['text10'];
+
+$score=0;
+
+if(isset($_POST['submit'])) {
+            if(isset($_POST['text1']) && $_POST['text1'] == 'many'){
+              $score++;
+              $resultat1 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat1 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text2']) && $_POST['text2'] == 'some'){
+              $score++;
+              $resultat2 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat2 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text3']) && $_POST['text3'] == 'any'){
+              $score++;
+              $resultat3 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat3 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text4']) && $_POST['text4'] == 'much'){
+              $score++;
+              $resultat4 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat4 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text5']) && $_POST['text5'] == 'a'){
+              $score++;
+              $resultat5 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat5 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text6']) && $_POST['text6'] == 'some'){
+              $score++;
+              $resultat6 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat6 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text7']) && $_POST['text7'] == 'any'){
+              $score++;
+              $resultat7 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat7 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text8']) && $_POST['text8'] == 'many'){
+              $score++;
+              $resultat8 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat8 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text9']) && $_POST['text9'] == 'any'){
+              $score++;
+              $resultat9 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat9 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text10']) && $_POST['text10'] == 'any'){
+              $score++;
+              $resultat10 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat10 = "<font color='red'>  *  </font>";
+            }
+
+
+if($score == 10){
+  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
+  $insert->execute(array(5,'Test Réussi'));
+}elseif($score != 10){
+  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
+  $insert->execute(array(5,'Test Pas Réussi'));
+}
+
+
+
+          }
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -194,153 +291,39 @@
                 
             <p>* Complete the sentences with one word *</p></div><br />
 
+<form method="POST">
+<p> 1 : How <input type="text" class="check003" id="input001" size="5"name="text1" value="<?php if(isset($text1)){
+  echo $text1; }?>"/><text class="button002" id="check001"></text> people are coming ?  <?php echo $resultat1; ?><br> <br>
 
-<p> 1 : How <input type="text" class="check003" id="input001" size="5" /><text class="button002" id="check001"></text> people are coming ?<br> <br>
-
-  2 : We've got <input id="input002" size="5" /><text class="button002" id="check002"></text> chiken but there isn't  <input id="input003" size="5" /> <text class="button002" id="check003"></text> rice .<br><br>
+  2 : We've got <input id="input002" size="5" name="text2" value="<?php if(isset($text2)){
+  echo $text2; }?>"/><text class="button002" id="check002"></text> <?php echo $resultat2; ?>  chiken but there isn't  <input id="input003" size="5" name="text3" value="<?php if(isset($text3)){
+  echo $text3; }?>"/> <text class="button002" id="check003"></text><?php echo $resultat3; ?> rice .<br><br>
    
-   3 : How <input id="input004" size="5" /><text class="button002" id="check004"></text> water do you think we need ?<br><br>
+   3 : How <input id="input004" size="5"  name="text4" value="<?php if(isset($text4)){
+  echo $text4; }?>"/><text class="button002" id="check004"></text> water do you think we need ? <?php echo $resultat4; ?><br><br>
 
-  4 :  There's <input id="input005" size="5" /><text class="button002" id="check005"></text> cat in the garden .<br><br>
+  4 :  There's <input id="input005" size="5" name="text5" value="<?php if(isset($text5)){
+  echo $text5; }?>"/><text class="button002" id="check005"></text> cat in the garden . <?php echo $resultat5; ?><br><br>
 
 
-   5 : I've brought  <input type="text"  id="input006" size="5" /><text class="button002" id="check006"></text> new shoes .<br>
+   5 : I've brought  <input type="text"  id="input006" size="5"  name="text6"  value="<?php if(isset($text6)){
+  echo $text6; }?>"/><text class="button002" id="check006"></text> new shoes . <?php echo $resultat6; ?><br>
    <br>
     
-    6 : Do you have  <input type="text"  id="input007" size="5" /><text class="button002" id="check007"></text> advice for me ?<br><br>
+    6 : Do you have  <input type="text"  id="input007" size="5" name="text7" value="<?php if(isset($text7)){
+  echo $text7; }?>"/><text class="button002" id="check007"></text> advice for me ? <?php echo $resultat7; ?><br><br>
 
-  7 : We have a  <input  id="input008" size="5" /><text class="button002" id="check008"></text> of chairs but we don't have <input  id="input009" size="5" /><text class="button002" id="check009"></text> tables .<br>
+  7 : We have a  <input  id="input008" size="5" name="text8" value="<?php if(isset($text8)){
+  echo $text8; }?>"/><text class="button002" id="check008"></text> <?php echo $resultat8; ?> of chairs but we don't have <input  id="input009" size="5" name="text9" value="<?php if(isset($text9)){
+  echo $text9; }?>"/><text class="button002" id="check009"></text><?php echo $resultat9; ?> tables .<br>
 <br>
-8 : There isn't <input  id="input010" size="5" /><text class="button002" id="check010"></text> toothpaste .</p>
+8 : There isn't <input  id="input010" size="5" name="text10" value="<?php if(isset($text10)){
+  echo $text10; }?>"/><text class="button002" id="check010"></text> toothpaste . <?php echo $resultat10; ?></p>
 
 
-            <div id="disappear001"><div id="center001"><button class="button001" onclick="submit001()">Submit</button></div></div><br />
-            <div id="center001"><p id="message001"></p><p id="reload001"></p></div>
-                <br />
-            <br />
-            </div>
-    </div>
-             <script>
-        var g;
-        var h;
-        var i;
-        var j;
-        var k;
-        var l;
-        var m;
-        var n;
-        var o;
-        var p;
-        function submit001() {
-            b = input001.value;
-            c = input002.value;
-            d = input003.value;
-            e = input004.value;
-            f = input005.value;
-            s = input006.value;
-            t = input007.value;
-            u = input008.value;
-            v = input009.value;
-            w = input010.value;
-           
-            if (b == "many") {
-                g = 1;
-                input001.value = b;
-                check001.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input001.value = b;
-                check001.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (c == "some") {
-                h = 1
-                input002.value = c;
-                check002.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input002.value = c;
-                check002.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (d == "any" || d == "much" ) {
-                i = 1;
-                input003.value = d;
-                check003.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input003.value = d;
-                check003.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (e == "much") {
-                j = 1;
-                input004.value = e;
-                check004.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input004.value = e;
-                check004.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (f == "a") {
-                k = 1;
-                input005.value = f;
-                check005.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input005.value = f;
-                check005.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (s == "some") {
-                l = 1;
-                input006.value = s;
-                check006.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input006.value = s;
-                check006.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-             if (t == "any" || t == "some") {
-                m = 1;
-                input007.value = t;
-                check007.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input007.value = t;
-                check007.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-             if (u == "lot") {
-                n = 1;
-                input008.value = u;
-                check008.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input008.value = u;
-                check008.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-             if (v == "many" || v == "any") {
-                o = 1;
-                input009.value = v;
-                check009.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input009.value = v;
-                check009.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-            if (w == "much") {
-                p = 1;
-                input010.value = w;
-                check010.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input010.value = w;
-                check010.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-
-            if (g == 1 && h == 1 && i == 1 && j == 1 && k == 1 && l == 1 && m == 1 && n == 1 && o == 1 && p == 1) {
-                message001.innerHTML = "Congratulation! You have successfully finished this quiz.";
-                disappear001.innerHTML = "";
-                reload001.innerHTML = "<div id=center001><button class=button001 onclick=repeat001()>Repeat</button></div>";
-            }
-        }
-
-            function repeat001() {
-                location.reload();
-            }
-    </script>           
+            <div id="disappear001"><div id="center001"><button class="button001" name="submit">Submit</button></div></div><br />
+            </form>
+                 
            
                     
 

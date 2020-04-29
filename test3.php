@@ -1,3 +1,89 @@
+<?php
+session_start();
+$bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
+
+
+$text1=$_POST['text1'];
+$text2=$_POST['text2'];
+$text3=$_POST['text3'];
+$text4=$_POST['text4'];
+$text5=$_POST['text5'];
+$text6=$_POST['text6'];
+$text7=$_POST['text7'];
+$text8=$_POST['text8'];
+
+$score=0;
+
+          if(isset($_POST['submit'])) {
+            if(isset($_POST['text1']) && $_POST['text1'] == '-'){
+              $score++;
+              $resultat1 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat1 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text2']) && $_POST['text2'] == 'the'){
+              $score++;
+              $resultat2 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat2 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text3']) && $_POST['text3'] == '-'){
+              $score++;
+              $resultat3 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat3 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text4']) && $_POST['text4'] == 'the'){
+              $score++;
+              $resultat4 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat4 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text5']) && $_POST['text5'] == 'an'){
+              $score++;
+              $resultat5 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat5 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text6']) && $_POST['text6'] == 'the'){
+              $score++;
+              $resultat6 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat6 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text7']) && $_POST['text7'] == 'a'){
+              $score++;
+              $resultat7 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat7 = "<font color='red'>  *  </font>";
+            }
+            if(isset($_POST['text8']) && $_POST['text8'] == 'a'){
+              $score++;
+              $resultat8 =  "<font color='green'>  ✔  </font>";
+            }else{
+              $resultat8 = "<font color='red'>  *  </font>";
+            }
+
+if($score == 8){
+  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
+  $insert->execute(array(3,'Test Réussi'));
+}elseif($score != 8){
+  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
+  $insert->execute(array(3,'Test Pas Réussi'));
+}
+
+
+
+
+          }     
+                  
+               
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -193,145 +279,52 @@
                 
             <p>* Complete the sentences with 'a', 'an' or 'the', or '-' if no article is needed. *</p></div><br />
 
+<form method="POST" action="">
+<p> 1 : I like listening to <input type="text" name ="text1" value="<?php if(isset($text1)){
+  echo $text1; }?>"
+  class="check003"  size="5" /><text class="button002" ></text> music, it helps me relax .<?php echo $resultat1; ?><br> <br>
 
-<p> 1 : I like listening to <input type="text" class="check003" id="input001" size="5" /><text class="button002" id="check001"></text> music, it helps me relax .<br> <br>
+2 : <input id="input002" size="5" name="text2"  value="<?php if(isset($text2)){
+  echo $text2; }?>"/><text class="button002" id="check002"></text> money he gave me wasn't enough . <?php echo $resultat2; ?><br><br>
 
-  2 : <input id="input002" size="5" /><text class="button002" id="check002"></text> money he gave me wasn't enough .<br><br>
-
-  3 : He doesn't like <input id="input003" size="5" /> <text class="button002" id="check003"></text> dogs. One bit him when he was a child .<br><br>
+  3 : He doesn't like <input id="input003" size="5" name="text3" value="<?php if(isset($text3)){
+  echo $text3; }?>"/> <text class="button002" id="check003"></text> dogs. One bit him when he was a child . <?php echo $resultat3; ?><br><br>
    
-   4 : Could you please pass me <input id="input004" size="5" /><text class="button002" id="check004"></text> salt ?<br><br>
+   4 : Could you please pass me <input id="input004" size="5" value="<?php if(isset($text4)){
+  echo $text4; }?>" name="text4"/><text class="button002" id="check004"></text> salt ? <?php echo $resultat4; ?><br><br>
 
-  5 :  Do you want <input id="input005" size="5" /><text class="button002" id="check005"></text> apple ? I've got two in my bag .<br><br>
+  5 :  Do you want <input id="input005" value="<?php if(isset($text5)){
+  echo $text5; }?>"size="5"name="text5"/><text class="button002" id="check005"></text>< apple ? I've got two in my bag . <?php echo $resultat5; ?><br><br>
 
 
-   6 : I can take <input type="text"  id="input006" size="5" /><text class="button002" id="check006"></text> children to school today .<br>
+   6 : I can take <input type="text" value="<?php if(isset($text6)){
+  echo $text6; }?>" name="text6" id="input006" size="5" /><text class="button002" id="check006"></text> children to school today . <?php echo $resultat6; ?><br>
    <br>
     
-    7 : This is my uncle Phil . He's <input type="text"  id="input007" size="5" /><text class="button002" id="check007"></text> teacher and he lives in London .<br><br>
+    7 : This is my uncle Phil . He's <input type="text" value="<?php if(isset($text7)){
+  echo $text7; }?>" name="text7" id="input007" size="5" /><text class="button002" id="check007"></text> teacher and he lives in London . <?php echo $resultat7; ?><br><br>
 
-  8 : Is there <input  id="input008" size="5" /><text class="button002" id="check008"></text> university where you live ?</p>
+  8 : Is there <input  id="input008" name="text8" size="5" value="<?php if(isset($text8)){
+  echo $text8; }?>" /><text class="button002" id="check008"></text>university where you live ? <?php echo $resultat8; ?>
 
 
-            <div id="disappear001"><div id="center001"><button class="button001" onclick="submit001()">Submit</button></div></div><br />
-            <div id="center001"><p id="message001"></p><p id="reload001"></p></div>
-                <br />
-            <br />
-            </div>
-    </div>
-             <script>
-        var g;
-        var h;
-        var i;
-        var j;
-        var k;
-        var l;
-        var m;
-        var n;
-        function submit001() {
-            b = input001.value;
-            c = input002.value;
-            d = input003.value;
-            e = input004.value;
-            f = input005.value;
-            s = input006.value;
-            t = input007.value;
-            u = input008.value;
-            if (b == "-") {
-                g = 1;
-                input001.value = b;
-                check001.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input001.value = b;
-                check001.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
 
-            if (c == "The" || c == "the") {
-                h = 1
-                input002.value = c;
-                check002.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input002.value = c;
-                check002.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
 
-            if (d == "-") {
-                i = 1;
-                input003.value = d;
-                check003.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input003.value = d;
-                check003.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
 
-            if (e == "the" || e == "The") {
-                j = 1;
-                input004.value = e;
-                check004.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input004.value = e;
-                check004.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
 
-            if (f == "an" || f == "An") {
-                k = 1;
-                input005.value = f;
-                check005.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input005.value = f;
-                check005.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
 
-            if (s == "the" || s == "The") {
-                l = 1;
-                input006.value = s;
-                check006.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input006.value = s;
-                check006.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
 
-             if (t == "a" || t == "A") {
-                m = 1;
-                input007.value = t;
-                check007.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input007.value = t;
-                check007.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
-             if (u == "a" || u == "A") {
-                n = 1;
-                input008.value = u;
-                check008.innerHTML = "<text class=button002>" + "✔" + "</text>";
-            } else {
-                input008.value = u;
-                check008.innerHTML = "<text class=button003>" + "✖" + "</text>";
-            }
 
-            if (g == 1 && h == 1 && i == 1 && j == 1 && k == 1 && l == 1 && m == 1 && n == 1) {
-                message001.innerHTML = "Congratulation! You have successfully finished this quiz.";
-                disappear001.innerHTML = "";
-                reload001.innerHTML = "<div id=center001><button class=button001 onclick=repeat001()>Repeat</button></div>";
-            }
-        }
 
-            function repeat001() {
-                location.reload();
-            }
-    </script>           
+
+
+</p>
+
+
+            <div id="disappear001"><div id="center001"><button class="button001" name="submit">Submit</button></div></div><br />
+            </form>
            
-                    
-
-                        
-                        
-
-                      
-
-                           
-                       
-                  
-               
-
+         
 
                 
     </section>
