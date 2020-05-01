@@ -5,56 +5,30 @@ $bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
 
 $score = 0;
 if(isset($_POST['submit'])){
-  if(isset($_POST['choix']) AND $_POST['choix'] == 'of' ){
-    $resultat1 = "correct";
-    $score++;
-  }else{
-$resultat1 =" la réponse est : OF";
-  }
-  if(isset($_POST['choix2']) AND $_POST['choix2'] == 'for' ){
-    $resultat2 = "correct";
-    $score++;
-  }else{
-$resultat2 =" la réponse est : FOR";
-  }
-  if(isset($_POST['choix3']) AND $_POST['choix3'] == 'to' ){
-    $resultat3 = "correct";
-    $score++;
-  }else{
-$resultat3 =" la réponse est : TO";
-  }
-  if(isset($_POST['choix4']) AND $_POST['choix4'] == 'in'){
-    $resultat4 = "correct";
-    $score++;
-  }else{
-$resultat4 =" la réponse est : IN";
-  }
-  if(isset($_POST['choix5']) AND $_POST['choix5'] == 'to'){
-    $resultat5 = "correct";
-    $score++;
-  }else{
-$resultat5 =" la réponse est : TO";
-  }
-  if(isset($_POST['choix6']) AND $_POST['choix6'] == 'for'){
-    $resultat6 = "correct";
-    $score++;
-  }else{
-$resultat6 =" la réponse est : FOR";
-  }
-  if(isset($_POST['choix7']) AND $_POST['choix7'] == 'about'){
-    $resultat7 = "correct";
-    $score++;
-  }else{
-$resultat7 =" la réponse est : ABOUT";
-  }
-  if(isset($_POST['choix8']) AND $_POST['choix8'] == 'at'){
-    $resultat8 = "correct";
-    $score++;
-  }else{
-$resultat8 =" la réponse est : AT";
-  }
-  $resultatt = "<h1> Total score is ".$score." ".' out of 8 </h1>';
-
+  if(isset($_POST['c1'])){
+  $score++;
+}
+if(isset($_POST['h1'])){
+  $score++;
+}
+if(isset($_POST['o2'])){
+  $score++;
+}
+if(isset($_POST['i2'])){
+  $score++;
+}
+if(isset($_POST['x2'])){
+  $score++;
+}
+if(isset($_POST['a2'])){
+  $score++;
+}
+if(isset($_POST['b1'])){
+  $score++;
+}
+if(isset($_POST['b4'])){
+  $score++;
+}
 
 
 if($score == 8){
@@ -236,88 +210,130 @@ input {
                            <br>
                          <form method="POST" action="">
                           <legend> 1: I'm really proud ___ you!</legend>
-                           <input type="radio" name="choix" value="of">  OF
+                           <input type="radio" name="c1" value="of">  OF
+                           <?php if(isset($_POST['c1'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?>
                         <br>
-                           <input type="radio" name="choix" value="to">  TO<br>
-                           <input type="radio" name="choix" value="with">  WITH<br>
+                           <input type="radio" name="c2" value="to">  TO <?php if(isset($_POST['c2'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+                           <input type="radio" name="c3" value="with">  WITH  <?php if(isset($_POST['c3'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
                           
                            
-                           <?php echo $resultat1; ?>
+                           
                            <br>
                            <br>
 
                            <legend>2 : She's responsible ___ health and safety.</legend>
-                           <input type="radio" name="choix2" value="for">  FOR
-                        <br>
-                           <input type="radio" name="choix2" value="in">  IN<br>
-                           <input type="radio" name="choix2" value="off">  OFF<br>
+                           <input type="radio" name="h1" value="for">  FOR <?php if(isset($_POST['h1'])){
                            
-                           <?php echo $resultat2; ?>
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?>
+                        <br>
+                           <input type="radio" name="h2" value="in">  IN <?php if(isset($_POST['h2'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+                           <input type="radio" name="h3" value="off">  OFF <?php if(isset($_POST['h3'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+                           
+                           
                            <br>
                            <br>
 
                            <legend>3 : He's allergic ___ seafood.</legend>
-                            <input type="radio" name="choix3" value="of">  OF
+                            <input type="radio" name="o1" value="of">  OF <?php if(isset($_POST['o1'])){
+                            echo "<font color='red'>  x  </font>"; } ?>
                         <br>
-                           <input type="radio" name="choix3" value="to">  TO<br>
-                           <input type="radio" name="choix3" value="with">  WITH<br>
+                           <input type="radio" name="o2" value="to">  TO <?php if(isset($_POST['o2'])){
                            
-                           <?php echo $resultat3; ?>
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?><br>
+                           <input type="radio" name="o3" value="with">  WITH <?php if(isset($_POST['o3'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+                           
+                           
                            <br>
                            <br>
 
                            <legend>4 : They're interested ___ our project.</legend>
-                           <input type="radio" name="choix4" value="about">  ABOUT
+                           <input type="radio" name="i1" value="about">  ABOUT <?php if(isset($_POST['i1'])){
+                            echo "<font color='red'>  x  </font>"; } ?>
                         <br>
-                           <input type="radio" name="choix4" value="in">  IN<br>
-                           <input type="radio" name="choix4" value="on">  ON<br>
+                           <input type="radio" name="i2" value="in">  IN
+                            <?php if(isset($_POST['i2'])){
                            
-                           <?php echo $resultat4; ?>
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?><br>
+                           <input type="radio" name="i3" value="on">  ON <?php if(isset($_POST['i3'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+                           
+                         
                            <br>
                            <br>
 
                            <legend>5 : I'm addicted ___ that new series on Channel 4.</legend>
-                           <input type="radio" name="choix5" value="of">  OF
+                           <input type="radio" name="x1" value="of">  OF <?php if(isset($_POST['x1'])){
+                            echo "<font color='red'>  x  </font>"; } ?>
                         <br>
-                           <input type="radio" name="choix5" value="to">  TO<br>
-                           <input type="radio" name="choix5" value="with">  WITH<br>
+                           <input type="radio" name="x2" value="to">  TO <?php if(isset($_POST['x2'])){
                            
-                           <?php echo $resultat5; ?>
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?><br>
+                           <input type="radio" name="x3" value="with">  WITH  <?php if(isset($_POST['x3'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+                           
+                           
                            <br>
                            <br>
 
                             <legend>6 : Sugar is bad ___ your teeth.</legend>
-                           <input type="radio" name="choix6" value="at">  AT
+                           <input type="radio" name="a1" value="at">  AT <?php if(isset($_POST['a1'])){
+                            echo "<font color='red'>  x  </font>"; } ?>
                         <br>
-                           <input type="radio" name="choix6" value="for">  FOR<br>
-                           <input type="radio" name="choix6" value="of">  OF<br>
+                           <input type="radio" name="a2" value="for">  FOR <?php if(isset($_POST['a2'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?><br>
+                           <input type="radio" name="a3" value="of">  OF <?php if(isset($_POST['a3'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
                           
-                           <?php echo $resultat6; ?>
+                          
                            <br>
                            <br>
 
                             <legend>7 : I'm really excited ___ the new house.</legend>
-                           <input type="radio" name="choix7" value="about">  ABOUT
+                           <input type="radio" name="b1" value="about">  ABOUT <?php if(isset($_POST['b1'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?>
                         <br>
-                           <input type="radio" name="choix7" value="of">  OF<br>
-                           <input type="radio" name="choix7" value="to">  TO<br>
+                           <input type="radio" name="b2" value="of">  OF <?php if(isset($_POST['b2'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+                           <input type="radio" name="b3" value="to">  TO <?php if(isset($_POST['b3'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
                           
-                           <?php echo $resultat7; ?>
+                           
                            <br>
                            <br>
 
                             <legend>8 : My boss is terrible ___ communicating.</legend>
-                           <input type="radio" name="choix8" value="at">  AT
+                           <input type="radio" name="b4" value="at">  AT <?php if(isset($_POST['b4'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?>
                         <br>
-                           <input type="radio" name="choix8" value="in">  IN<br>
-                           <input type="radio" name="choix8" value="to">  TO<br>
+                           <input type="radio" name="b5" value="in">  IN <?php if(isset($_POST['b5'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+                           <input type="radio" name="b6" value="to">  TO <?php if(isset($_POST['b6'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
                           
-                           <?php echo $resultat8; ?>
+                           
                            <br>
                            <br>
 
                            <input type="submit" name="submit" value="Finish">
-                            <?php echo $resultatt; ?><br>
+                            <br>
                            <input type="reset" name="reset" value="try again">
 
 

@@ -1,9 +1,54 @@
 <?php
 session_start();
+
 $bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
 
 
+$score = 0;
+
+if(isset($_POST['submit'])){
+  
+
+
+
+
+if(isset($_POST['x2'])){
+  $score++;
+}
+if(isset($_POST['x3'])){
+  $score++;
+}
+if(isset($_POST['x6'])){
+  $score++;
+}
+if(isset($_POST['x7'])){
+  $score++;
+}
+if(isset($_POST['x9'])){
+  $score++;
+}
+if(isset($_POST['x11'])){
+  $score++;
+}
+
+
+$resultat = "Votre score est de ".$score." /10";
+if($score == 6){
+  $res = "Félécitations vous avez réussi le Test ";
+  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
+  $insert->execute(array(8,'Test Réussi'));
+}else{
+  $res = "EMM Dommage , vous pouvez réessayer ";
+  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
+  $insert->execute(array(8,'Test Pas Réussi'));
+}
+
+}
+ 
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +69,27 @@ $bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
     <link rel="stylesheet" href="vendors/nice-select/css/nice-select.css" />
     <!-- main css -->
     <link rel="stylesheet" href="css/style.css" />
+    
+<style>
+  p,
+label {
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input {
+    margin: .4rem;
+}
+
+
+
+</style>
+
+
+
+
+
+
+
   </head>
 
   <body>
@@ -96,28 +162,12 @@ $bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
                         >Course Details</a
                       >
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="elements.php">Elements</a>
-                    </li>
+                    
                   </ul>
                 </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="calendrier/3a-calendar.php"
-                    class="nav-link dropdown-toggle"
-                    
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Calendar</a
-                  >
-                 
-                </li>
+                
                 <li class="nav-item">
                   <a class="nav-link" href="contact.php">Contact</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="deco.php">Log-out</a>
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link search" id="search">
@@ -145,7 +195,8 @@ $bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
                   <a href="home.php">Home</a>
                   <a href="courses.php">Courses</a>
                   <a href="course-details.php">Courses Details</a>
-                 
+                  <a href="course-detail.php">Grammar</a>
+
                 </div>
               </div>
             </div>
@@ -156,283 +207,93 @@ $bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
     <!--================End Home Banner Area =================-->
 
     <!--================ Start Course Details Area =================-->
-    <section class="course_details_area section_gap">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 course_details_left">
-                    <div class="main_image">
-                        <img class="img-fluid" src="img/courses/course-details.jpg" alt="">
-                    </div>
-                    <div class="content_wrapper">
-                        <h4 class="title">Objectives</h4>
-                        <div class="content">
-                            Are you a beginner (CEFR level A1) or pre-intermediate (CEFR level A2) learner of English?
-
-In this section you will find activities to help you learn the meaning, pronunciation and spelling of new words. Learning vocabulary will help you improve your language level and communicate in English confidently and effectively. The pages are organised by topic and include interactive exercises to help you learn and remember the new words.
+    <section class="course_details_area section_gap"> 
+                        
+                           <h3> Writing : A message to say you're late - preparation : </h3>
+                           
+                           <br>
+                         <form method="POST" action="">
+                          
+                           <h4>Choose the correct response :</h4>
+                           <br>
+                           <legend> 1: The team meeting will be in the evening. </legend>
+                           <input type="radio" name="x1" >  True <?php if(isset($_POST['x1'])){
+                            echo "<font color='red'>  x  </font>"; } ?>
+                        
+                           <input type="radio" name="x2" > False <?php if(isset($_POST['x2'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?><br>
+                           <br>
+                           <legend> 2: There will be people from different countries at the meeting.</legend>
+                           <input type="radio" name="x3" >  True  <?php if(isset($_POST['x3'])){
+                            echo "<font color='green'>  ✔  </font>"; } ?> 
+                           
+                           <input type="radio" name="x4" >  False <?php if(isset($_POST['x4'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
                             <br>
+                        <legend> 3: Amelia has already booked Room 310 for Friday 26 November.</legend>
+                           <input type="radio" name="x5" > True  <?php if(isset($_POST['x5'])){
+                            echo "<font color='red'>  x  </font>"; } ?>
+                           <input type="radio" name="x6" >  False <?php if(isset($_POST['x6'])){
                             
-                        </div>
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?> <br>  
+                           <br>
+                            <legend> 4: Amelia wants Tim to get 25 pens and notepads ready for the meeting. </legend>
+                           <input type="radio" name="x7" >  True <?php if(isset($_POST['x7'])){
+                            echo "<font color='green'>  ✔  </font>"; } ?>
+                        
+                           <input type="radio" name="x8" > False  <?php if(isset($_POST['x8'])){
+                            
+                            echo "<font color='red'>  x  </font>"; 
+                           } ?><br>
+                           <br>
+                           <legend> 5:  Amelia wants Tim to email the 25 team members.</legend>
+                           <input type="radio" name="x9" > True  <?php if(isset($_POST['x9'])){
+                            echo "<font color='green'>  ✔  </font>"; } ?>
+                              <input type="radio" name="x10" > False  <?php if(isset($_POST['x10'])){
+                            echo "<font color='red'>  *  </font>"; } ?>
+                           <br>  
+                           <br>
+                           <legend> 6: If Tim has any questions, he can ask Amelia tomorrow morning.</legend>
+                           <input type="radio" name="x11" > True  <?php if(isset($_POST['x11'])){
+                            echo "<font color='green'>  ✔  </font>"; } ?>
+                              <input type="radio" name="x12" > False  <?php if(isset($_POST['x12'])){
+                            echo "<font color='red'>  x </font>"; } ?>
+                           <br>   
+
+                          
+                               <?php echo $resultat; ?> <br>
+                               <?php echo $res ; ?><br>
+
+                           <input type="submit" name="submit" value="Finish">
+                            <?php echo $resultatt; ?><br>
+                           <input type="reset" name="reset" value="try again">
+
+
+
+
+
+
+
+                         </form>  
+                        
+           
+                    
 
                         
+                        
 
-                        <h4 class="title">Course Outline</h4>
-                        <br>
-                        <div class="content">
-                            <ul class="course_list">
-                                <li class="justify-content-between d-flex">
-                                    <h3>Grammar</h3>
-                                    <a class="primary-btn text-uppercase" href="course-detail.php">View course</a>
-                                </li>
-                                
                       
-                                   
-                                <li class="justify-content-between d-flex">
-                                    <h3>Skills </h3>
-                                    <a class="primary-btn text-uppercase" href="course-detail2.php">View course</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                
-                             
-                              
-                              
-                                    <h3>Rest</h3>
-                                  <a class="primary-btn text-uppercase" href="viex.php">View course</a>
-                                </li>
-                                
-                               
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+
+                           
+                       
+                  
+               
 
 
-                <div class="col-lg-4 right-contents">
-                    <ul>
-                        <li>
-                            <a class="justify-content-between d-flex" href="#">
-                                <p>Trainer’s Name</p>
-                                <span class="or">George Mathews</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="justify-content-between d-flex" href="#">
-                                <p>Course Fee </p>
-                                <span>23$</span>
-                            </a>
-                        </li>
-                        
-                        <li>
-                            <a class="justify-content-between d-flex" href="#">
-                                <p>Schedule </p>
-                                <span>2 hours</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <a href="#" class="primary-btn2 text-uppercase enroll rounded-0 text-white">Enroll the course</a>
-
-                    <h4 class="title">Notes</h4>
-                    <div class="content">
-                        <div class="review-top row pt-40">
-                            <div class="col-lg-12">
-                                <h3 class="mb-15">Grammar Tests</h3>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 1</strong>
-                                       <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(1,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                    
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 2</strong>
-                                   
-                                     <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(2,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 3</strong>
-                                    
-                                     <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(3,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 4</strong>
-                                   
-                                     <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(4,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 5</strong>
-                                   
-                                     <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(5,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="review-top row pt-40">
-                            <div class="col-lg-12">
-                                <h3 class="mb-15">Skills Tests</h3>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 1</strong>
-                                    <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(6,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                       
-                                    
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 2</strong>
-                                     <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(7,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                     
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 3</strong>
-                                    <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(8,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                    
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <div class="feedeback">
-                            <h6>Your Feedback about The tests </h6>
-                            <textarea name="feedback" class="form-control" cols="10" rows="10"></textarea>
-                            <div class="mt-10 text-right">
-                                <a href="#" class="primary-btn2 text-right rounded-0 text-white">Submit</a>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
+                
     </section>
     <!--================ End Course Details Area =================-->
 
@@ -545,11 +406,3 @@ if($ok == 0){
           <script src="js/theme.js"></script>
         </body>
       </html>
-
-
-
-
-
-
-
-

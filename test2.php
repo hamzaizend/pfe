@@ -5,61 +5,38 @@ $bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
 
 $score = 0;
 if(isset($_POST['submit'])){
-  if(isset($_POST['choix']) AND $_POST['choix'] == 'tired' ){
-    $resultat1 = "correct";
-    $score++;
-  }else{
-$resultat1 =" la réponse est : tired";
-  }
-  if(isset($_POST['choix2']) AND $_POST['choix2'] == 'exciting' ){
-    $resultat2 = "correct";
-    $score++;
-  }else{
-$resultat2 =" la réponse est : exciting";
-  }
-  if(isset($_POST['choix3']) AND $_POST['choix3'] == 'annoying' ){
-    $resultat3 = "correct";
-    $score++;
-  }else{
-$resultat3 =" la réponse est : annoying";
-  }
-  if(isset($_POST['choix4']) AND $_POST['choix4'] == 'confusing'){
-    $resultat4 = "correct";
-    $score++;
-  }else{
-$resultat4 =" la réponse est : confusing";
-  }
-  if(isset($_POST['choix5']) AND $_POST['choix5'] == 'surprised'){
-    $resultat5 = "correct";
-    $score++;
-  }else{
-$resultat5 =" la réponse est : surprised";
-  }
-  if(isset($_POST['choix6']) AND $_POST['choix6'] == 'interested'){
-    $resultat6 = "correct";
-    $score++;
-  }else{
-$resultat6 =" la réponse est : interested";
-  }
-  if(isset($_POST['choix7']) AND $_POST['choix7'] == 'frightened'){
-    $resultat7 = "correct";
-    $score++;
-  }else{
-$resultat7 =" la réponse est : frightened";
-  }
-  if(isset($_POST['choix8']) AND $_POST['choix8'] == 'disappointing'){
-    $resultat8 = "correct";
-    $score++;
-  }else{
-$resultat8 =" la réponse est : disappointing";
-  }
-  $resultatt = "<h1> Total score is ".$score.' '.'out of 8 </h1>';
+    if(isset($_POST['c1'])){
+  $score++;
+}
+if(isset($_POST['h2'])){
+  $score++;
+}
+if(isset($_POST['o2'])){
+  $score++;
+}
+if(isset($_POST['i2'])){
+  $score++;
+}
+if(isset($_POST['x1'])){
+  $score++;
+}
+if(isset($_POST['a1'])){
+  $score++;
+}
+if(isset($_POST['b1'])){
+  $score++;
+}
+if(isset($_POST['b4'])){
+  $score++;
+}
 
 
 if($score == 8){
+  $resultatt = " Félécitations Vous avez résussi le Test ";
   $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
   $insert->execute(array(2,'Test Réussi'));
 }elseif($score != 8){
+  $resultatt ="Euuuh Dommage , une autre fois ";
   $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
   $insert->execute(array(2,'Test Pas Réussi'));
 }
@@ -237,82 +214,114 @@ input {
                            <br>
                          <form method="POST" action="">
                           <legend> 1: You look really ___. Why don't you go to bed ?</legend>
-                           <input type="radio" name="choix" value="tired">  tired
+                           <input type="radio" name="c1" value="tired">  tired <?php if(isset($_POST['c1'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?> 
                         <br>
-                           <input type="radio" name="choix" value="tiring">  tiring<br>
+                           <input type="radio" name="c2" value="tiring">  tiring  <?php if(isset($_POST['c2'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
                            
                           
                            
-                           <?php echo $resultat1; ?>
+                          
                            <br>
                            <br>
 
                            <legend>2 : Can I call you? I've got some very ___ news for you!</legend>
-                           <input type="radio" name="choix2" value="excited">  excited
+                           <input type="radio" name="h1" value="excited">  excited <?php if(isset($_POST['h1'])){
+                            echo "<font color='red'>  x  </font>"; } ?>
                         <br>
-                           <input type="radio" name="choix2" value="exciting">  exciting<br>
+                           <input type="radio" name="h2" value="exciting">  exciting <?php if(isset($_POST['h2'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?><br>
                            
                            
-                           <?php echo $resultat2; ?>
+                           
                            <br>
                            <br>
 
                            <legend>3 : My neighbour is always playing loud music. It's very ___.</legend>
-                            <input type="radio" name="choix3" value="annoyed">  annoyed
+                            <input type="radio" name="o1" value="annoyed">  annoyed <?php if(isset($_POST['o1'])){
+                            echo "<font color='red'>  x  </font>"; } ?>
                         <br>
-                           <input type="radio" name="choix3" value="annoying">  annoying<br>
+                           <input type="radio" name="o2" value="annoying">  annoying <?php if(isset($_POST['o2'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?><br>
                            
                            
-                           <?php echo $resultat3; ?>
+                          
                            <br>
                            <br>
 
                            <legend>4 : The directions were ___ and we got lost.</legend>
-                           <input type="radio" name="choix4" value="confused">  confused
+                           <input type="radio" name="i1" value="confused">  confused  <?php if(isset($_POST['i1'])){
+                            echo "<font color='red'>  x  </font>"; } ?>
                         <br>
-                           <input type="radio" name="choix4" value="confusing">  confusing<br>
+                           <input type="radio" name="i2" value="confusing">  confusing <?php if(isset($_POST['i2'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?><br>
                            
                            
-                           <?php echo $resultat4; ?>
+                           
                            <br>
                            <br>
 
                            <legend>5 : I was really ___ that I won the competition.</legend>
-                           <input type="radio" name="choix5" value="surprised">  surprised
+                           <input type="radio" name="x1" value="surprised">  surprised <?php if(isset($_POST['x1'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?>
                         <br>
-                           <input type="radio" name="choix5" value="surprising">  surprising<br>
+                           <input type="radio" name="x2" value="surprising">  surprising  <?php if(isset($_POST['x2'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
                                                       
-                           <?php echo $resultat5; ?>
+                          
                            <br>
                            <br>
 
                             <legend>6 : She didn't call about the car. I don't think she's ___ in buying it.</legend>
-                           <input type="radio" name="choix6" value="interested">  interested
+                           <input type="radio" name="a1" value="interested">  interested <?php if(isset($_POST['a1'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?>
                         <br>
-                           <input type="radio" name="choix6" value="interesting">  interesting<br>
+                           <input type="radio" name="a2" value="interesting">  interesting  <?php if(isset($_POST['a2'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
                            
                           
-                           <?php echo $resultat6; ?>
+                          
                            <br>
                            <br>
 
                             <legend>7 : My cats get really ___ when there's a thunderstorm.</legend>
-                           <input type="radio" name="choix7" value="frightened">  frightened
+                           <input type="radio" name="b1" value="frightened">  frightened <?php if(isset($_POST['b1'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?>
                         <br>
-                           <input type="radio" name="choix7" value="frightening">  frightening<br>
+                           <input type="radio" name="b2" value="frightening">  frightening  <?php if(isset($_POST['b2'])){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
                           
                           
-                           <?php echo $resultat7; ?>
+                           
                            <br>
                            <br>
 
                             <legend>8 : His exam results were really ___.</legend>
-                           <input type="radio" name="choix8" value="disappointed">  disappointed
+                           <input type="radio" name="b3" value="disappointed">  disappointed  <?php if(isset($_POST['b3'])){
+                            echo "<font color='red'>  x  </font>"; } ?>
                         <br>
-                           <input type="radio" name="choix8" value="disappointing">  disappointing<br>
+                           <input type="radio" name="b4" value="disappointing">  disappointing <?php if(isset($_POST['b4'])){
+                           
+                            echo "<font color='green'>  ✔  </font>"; 
+                           } ?><br>
                            
                           
-                           <?php echo $resultat8; ?>
+                          
                            <br>
                            <br>
 
