@@ -23,6 +23,7 @@ session_start();
     <link rel="stylesheet" href="vendors/nice-select/css/nice-select.css" />
     <!-- main css -->
     <link rel="stylesheet" href="css/style.css" />
+    
   </head>
 
   <body>
@@ -162,7 +163,7 @@ echo $_SESSION['name'];
             <div class="main_title">
               <h2 class="mb-3">Our Popular Courses</h2>
               <p>
-                Replenish man have thing gathering lights yielding shall you
+                This is a selection of our most appreciated courses .
               </p>
             </div>
           </div>
@@ -176,21 +177,21 @@ echo $_SESSION['name'];
                   <img class="img-fluid" src="img/courses/c1.jpg" alt="" />
                 </div>
                 <div class="course_content">
-                  <span class="price">$25</span>
-                  <span class="tag mb-4 d-inline-block">design</span>
+                  <span class="price">$40s</span>
+                  <span class="tag mb-4 d-inline-block">Grammar</span>
                   <h4 class="mb-3">
-                    <a href="course-details.html">Custom Product Design</a>
+                    <a href="course-details-grammar.php">Beginner to pre-intermediate</a>
                   </h4>
                   <p>
-                    One make creepeth man bearing their one firmament won't fowl
-                    meat over sea
+                    In this section you can improve your grammar with our clear and simple grammar lessons. Start with an example then read the explanation to improve your grammar knowledge. 
+
                   </p>
                   <div
                     class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
                   >
                     <div class="authr_meta">
                       <img src="img/courses/author1.png" alt="" />
-                      <span class="d-inline-block ml-2">Cameron</span>
+                      <span class="d-inline-block ml-2">Khalil</span>
                     </div>
                     <div class="mt-lg-0 mt-3">
                       <span class="meta_info mr-4">
@@ -210,20 +211,21 @@ echo $_SESSION['name'];
                 </div>
                 <div class="course_content">
                   <span class="price">$25</span>
-                  <span class="tag mb-4 d-inline-block">design</span>
+                  <span class="tag mb-4 d-inline-block">Skills</span>
                   <h4 class="mb-3">
-                    <a href="course-details.html">Social Media Network</a>
+                    <a href="course-details-skills.php">Beginner to pre-intermediate</a>
                   </h4>
                   <p>
-                    One make creepeth man bearing their one firmament won't fowl
-                    meat over sea
+                  Here you can find activities to practise your writing skills. You can improve your writing by understanding model texts and how they're structured.
+                  <br>
+                  <br>
                   </p>
                   <div
                     class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
                   >
                     <div class="authr_meta">
                       <img src="img/courses/author2.png" alt="" />
-                      <span class="d-inline-block ml-2">Cameron</span>
+                      <span class="d-inline-block ml-2">Hamza</span>
                     </div>
                     <div class="mt-lg-0 mt-3">
                       <span class="meta_info mr-4">
@@ -242,21 +244,21 @@ echo $_SESSION['name'];
                   <img class="img-fluid" src="img/courses/c3.jpg" alt="" />
                 </div>
                 <div class="course_content">
-                  <span class="price">$25</span>
-                  <span class="tag mb-4 d-inline-block">design</span>
+                  <span class="price">$15</span>
+                  <span class="tag mb-4 d-inline-block">General English</span>
                   <h4 class="mb-3">
-                    <a href="course-details.html">Computer Engineering</a>
+                    <a href="course-general-english.php">Beginner to pre-intermediate </a>
                   </h4>
                   <p>
-                    One make creepeth man bearing their one firmament won't fowl
-                    meat over sea
+                   In this section you will find activities to help you learn the meaning, pronunciation and spelling of new words. Learning vocabulary will help you improve your language level .
+
                   </p>
                   <div
                     class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
                   >
                     <div class="authr_meta">
-                      <img src="img/courses/author3.png" alt="" />
-                      <span class="d-inline-block ml-2">Cameron</span>
+                      <img src="img/courses/author1.png" alt="" />
+                      <span class="d-inline-block ml-2">Khalil</span>
                     </div>
                     <div class="mt-lg-0 mt-3">
                       <span class="meta_info mr-4">
@@ -277,79 +279,7 @@ echo $_SESSION['name'];
     <!--================ End Popular Courses Area =================-->
 
     <!--================ Start Registration Area =================-->
-    <div class="section_gap registration_area">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-7">
-              <div class="row clock_sec clockdiv" id="clockdiv">
-                <div class="col-lg-12">
-                  <h1 class="mb-3">Register Now</h1>
-                  <p>
-                    There is a moment in the life of any aspiring astronomer that
-                    it is time to buy that first telescope. It’s exciting to think
-                    about setting up your own viewing station.
-                  </p>
-                </div>
-                <div class="col clockinner1 clockinner">
-                  <h1 class="days">150</h1>
-                  <span class="smalltext">Days</span>
-                </div>
-                <div class="col clockinner clockinner1">
-                  <h1 class="hours">23</h1>
-                  <span class="smalltext">Hours</span>
-                </div>
-                <div class="col clockinner clockinner1">
-                  <h1 class="minutes">47</h1>
-                  <span class="smalltext">Mins</span>
-                </div>
-                <div class="col clockinner clockinner1">
-                  <h1 class="seconds">59</h1>
-                  <span class="smalltext">Secs</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-4 offset-lg-1">
-              <div class="register_form">
-                <h3>Courses for Free</h3>
-                <p>It is high time for learning</p>
-                <form
-                  class="form_area"
-                  id="myForm"
-                  action="mail.html"
-                  method="post"
-                >
-                  <div class="row">
-                    <div class="col-lg-12 form_group">
-                      <input
-                        name="name"
-                        placeholder="Your Name"
-                        required=""
-                        type="text"
-                      />
-                      <input
-                        name="name"
-                        placeholder="Your Phone Number"
-                        required=""
-                        type="tel"
-                      />
-                      <input
-                        name="email"
-                        placeholder="Your Email Address"
-                        pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
-                        required=""
-                        type="email"
-                      />
-                    </div>
-                    <div class="col-lg-12 text-center">
-                      <button class="primary-btn">Submit</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+   
       <!--================ End Registration Area =================-->
 
     <!--================ Start Feature Area =================-->
@@ -407,6 +337,11 @@ echo $_SESSION['name'];
         </div>
       </div>
     </section>
+
+
+
+
+
     <!--================ End Feature Area =================-->
 
     <!--================ Start footer Area  =================-->
@@ -488,7 +423,7 @@ echo $_SESSION['name'];
         <div class="row footer-bottom d-flex justify-content-between">
           <p class="col-lg-8 col-sm-12 footer-text m-0 text-white">
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </p>
           <div class="col-lg-4 col-sm-12 footer-social">

@@ -145,7 +145,7 @@ $bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
                   <a href="home.php">Home</a>
                   <a href="courses.php">Courses</a>
                   <a href="course-details.php">Courses Details</a>
-                 
+                 <a href="#">Skills</a>
                 </div>
               </div>
             </div>
@@ -166,9 +166,11 @@ $bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
                     <div class="content_wrapper">
                         <h4 class="title">Objectives</h4>
                         <div class="content">
-                            Are you a beginner (CEFR level A1) or pre-intermediate (CEFR level A2) learner of English?
+                           Here you can find activities to practise your listening, reading, writing and speaking skills. Improving your skills will help you use English more effectively and do well in your studies, get ahead at work and communicate in English in your free time.<br>
 
-In this section you will find activities to help you learn the meaning, pronunciation and spelling of new words. Learning vocabulary will help you improve your language level and communicate in English confidently and effectively. The pages are organised by topic and include interactive exercises to help you learn and remember the new words.
+The self-study lessons in these sections are written and organised according to the levels of the Common European Framework of Reference for languages (CEFR). There are different types of texts, recordings and videos with interactive exercises and worksheets that practise the skills you need.<br>
+
+Choose the skill you want to practise today and improve your English at your own speed, whenever it's convenient for you.
                             <br>
                             
                         </div>
@@ -181,9 +183,9 @@ In this section you will find activities to help you learn the meaning, pronunci
                             <ul class="course_list">
                                 <li class="justify-content-between d-flex">
                                  
-                                    <h3>Grammar</h3>
+                                    <h3>A message to say you're late</h3>
                                     <td>
-                                    <a class="primary-btn2 text-uppercase enroll rounded-0 text-black" href="course-detail.php">View course</a>
+                                    <a class="primary-btn2 text-uppercase enroll rounded-0 text-black" href="course-detail2.php">View course</a>
 
                                  
                                 </li>
@@ -191,17 +193,17 @@ In this section you will find activities to help you learn the meaning, pronunci
                       
                                    
                                 <li class="justify-content-between d-flex">
-                                    <h3>Skills </h3>
-                                    <a class="primary-btn2 text-uppercase enroll rounded-0 text-black" href="course-detail2.php">View course</a>
+                                    <h3>A thank-you email </h3>
+                                    <a class="primary-btn2 text-uppercase enroll rounded-0 text-black" href="course-detail2.php?page=2">View course</a>
                                 </li>
                                 <li class="justify-content-between d-flex">
                                 
                              
                               
                               
-                                    <h3>General English</h3>
+                                    <h3> Instructions for a colleague</h3>
                                   <a class="primary-btn2 text-uppercase enroll rounded-0 text-black"
-                                   href="viex.php">View course</a>
+                                   href="course-detail2.php?page=3">View course</a>
                                 </li>
                                 
                                
@@ -216,20 +218,20 @@ In this section you will find activities to help you learn the meaning, pronunci
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>Trainer’s Name</p>
-                                <span class="or">Hamza IZEND <br> Khalil ARCHKAK</span>
+                                <span class="or">Hamza IZEND </span>
                             </a>
                         </li>
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>Course Fee </p>
-                                <span>23$</span>
+                                <span>25$</span>
                             </a>
                         </li>
                         
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>Schedule </p>
-                                <span>2 hours</span>
+                                <span>3 hours</span>
                             </a>
                         </li>
                     </ul>
@@ -237,121 +239,7 @@ In this section you will find activities to help you learn the meaning, pronunci
 
                     <h4 class="title">Notes</h4>
                     <div class="content">
-                        <div class="review-top row pt-40">
-                            <div class="col-lg-12">
-                                <h3 class="mb-15">Grammar Tests</h3>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 1</strong>
-                                       <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(1,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                    
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 2</strong>
-                                   
-                                     <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(2,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 3</strong>
-                                    
-                                     <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(3,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 4</strong>
-                                   
-                                     <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(4,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <strong>Test 5</strong>
-                                   
-                                     <?php
-
-                  $etat="Test Réussi";                 
-$req = $bdd->prepare("SELECT * FROM test WHERE  num=? AND etat=? ");
-$req->execute(array(5,$etat));
-$ok=$req->rowCount();
-if($ok == 0){
-  echo 'Test Pas réussi';
-}else{
-  echo 'Test réussi';
-}
-
-
-
-
-
-
-                       ?>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <br>
                         <div class="review-top row pt-40">
                             <div class="col-lg-12">
@@ -550,11 +438,3 @@ if($ok == 0){
           <script src="js/theme.js"></script>
         </body>
       </html>
-
-
-
-
-
-
-
-
