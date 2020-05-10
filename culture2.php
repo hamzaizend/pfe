@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-include "connexion.inc.php";
+$bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
 
 
 if (!isset($_SESSION['id'])) {
@@ -10,74 +10,61 @@ if (!isset($_SESSION['id'])) {
   exit();
 }
 
-$requete= $bdd->prepare('SELECT id FROM test WHERE id_user=? and num=? and etat=?');
-$requete->execute(array($_SESSION['id'],9,'Test Reussi'));
-$ok=$requete->rowCount();
-if($ok){
-    $_SESSION['flash']['danger']="Vous avez déja réussi ce test vous pouvez passé au cours suivant";
-    header('Location: course-general-english.php');
-    exit();
-}
-
-
 $score = 0;
 
 if(isset($_POST['submit'])){
   
-
-if(isset($_POST['x1']) AND $_POST['x1'] == "2"){
+if(isset($_POST['x1']) AND $_POST['x1'] == "1"){
   $score++;
 }
-if(isset($_POST['x2']) AND $_POST['x2'] == "1"){
+if(isset($_POST['x2']) AND $_POST['x2'] == "3"){
   $score++;
 }
 if(isset($_POST['x3']) AND $_POST['x3'] == "2"){
   $score++;
 }
-if(isset($_POST['x4']) AND $_POST['x4'] == "1"){
+if(isset($_POST['x4']) AND $_POST['x4'] == "4"){
   $score++;
 }
-if(isset($_POST['x5']) AND $_POST['x5'] == "1"){
+if(isset($_POST['x5']) AND $_POST['x5'] == "3"){
   $score++;
 }
-if(isset($_POST['x6']) AND $_POST['x6'] == "1"){
+if(isset($_POST['x6']) AND $_POST['x6'] == "2"){
   $score++;
 }
 if(isset($_POST['x7']) AND $_POST['x7'] == "1"){
   $score++;
 }
-if(isset($_POST['x8']) AND $_POST['x8'] == "2"){
+if(isset($_POST['x8']) AND $_POST['x8'] == "4"){
+  $score++;
+}
+if(isset($_POST['x9']) AND $_POST['x9'] == "1"){
+  $score++;
+}
+if(isset($_POST['x10']) AND $_POST['x10'] == "4"){
   $score++;
 }
 
-$resultat = "Votre score est de ".$score." /8";
 
-
-if($score == 8){
+$resultat = "Votre score est de ".$score." /10";
+if($score == 10){
   $res_success = "Félécitations vous avez réussi le test ";
   $insert=$bdd->prepare("INSERT INTO test(id_user,num,etat) VALUES(?,?,?)");
   $delete=$bdd->prepare("DELETE FROM test WHERE etat=? AND id_user=? AND num=?");
-  $insert->execute(array($_SESSION['id'],9,'Test Reussi'));
-  $delete->execute(array('Test Pas Reussi',$_SESSION['id'],9));
+  $insert->execute(array($_SESSION['id'],14,'Test Reussi'));
+  $delete->execute(array('Test Pas Reussi',$_SESSION['id'],1));
   $_SESSION['flash']['success']=$res_success ." <br> ".$resultat;
-  header('Location: course-general-english.php');
-  exit();
 }else{
-    $res_fail = "EMM Dommage , vous pouvez réessayer ";
-      $find=$bdd->prepare("SELECT id FROM test WHERE id_user=? AND num=? AND etat=?");
-      $find->execute(array($_SESSION['id'],9,'Test Pas Reussi'));
-      $ok=$find->rowCount();
-    if(!$ok){ 
-      $insert=$bdd->prepare("INSERT INTO test(id_user,num,etat) VALUES(?,?,?)");
-      $insert->execute(array($_SESSION['id'],9,'Test Pas Reussi'));
-      $_SESSION['flash']['danger']=$res_fail ." <br> ".$resultat;
-    }
-    else{
-    $updatereq=$bdd->prepare("UPDATE test SET etat = Test Pas Reussi WHERE id_user=? and num=? ");
-    $updatereq->execute(array($_SESSION['id'],9));
-    $_SESSION['flash']['danger']=$res_fail ." <br> ".$resultat;
-    }
-  }
+  $res_fail = "EMM Dommage , vous pouvez réessayer ";
+  $insert=$bdd->prepare("INSERT INTO test(id_user,num,etat) VALUES(?,?,?)");
+  $insert->execute(array($_SESSION['id'],14,'Test Pas Reussi'));
+  $delete=$bdd->prepare("DELETE FROM test WHERE etat=? AND id_user=? AND num=?");
+  $delete->execute(['Test Reussi',$_SESSION['id'],1]);
+  $_SESSION['flash']['danger']=$res_fail ." <br> ".$resultat;
+
+}
+
+
 
 }
  
@@ -162,13 +149,10 @@ if($score == 8){
                         <span class="icon-bar"></span>
                     </button>
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <?php if (isset($_SESSION['id'])) : ?>
-                        <b style="font-family:Rubik; color: #FCC632;"class=" visible lead"> Bienvenue Monsieur : <?= $_SESSION['name'] ?> </b>
-                    <?php endif; ?>
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="index.php">Home</a>
+                                <a class="nav-link" href="home.php">Home</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="about-us.php">About</a>
@@ -181,15 +165,12 @@ if($score == 8){
                                         <a class="nav-link" href="courses.php">Courses</a>
                                     </li>
                                     <li class="nav-item">
-                      <a class="nav-link" href="course-quizes.php">General culture</a>
-                    </li>
+                                        <a class="nav-link" href="course-details.php">Course Details</a>
+                                    </li>
+
                                 </ul>
                             </li>
-                            <li class="nav-item">
-                            <?php if (isset($_SESSION['id'])) : ?>
-                                <a class="nav-link" href="calendrier/3a-calendar.php">Calendrier</a>
-                            <?php endif; ?>
-                            </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="contact.php">Contact</a>
                             </li>
@@ -221,7 +202,7 @@ if($score == 8){
                         <div class="banner_content text-center">
                             <h2>Course Details</h2>
                             <div class="page_link">
-                                <a href="index.php">Home</a>
+                                <a href="home.php">Home</a>
                                 <a href="courses.php">Courses</a>
                                 <a href="course-details.php">Courses Details</a>
                                 <a href="course-detail.php">Grammar</a>
@@ -236,80 +217,173 @@ if($score == 8){
     <!--================End Home Banner Area =================-->
 
     <!--================ Start Course Details Area =================-->
-    <section class="course_details_area section_gap bg-light text-center">
+     <section class="course_details_area section_gap bg-light text-center">
 
-        <h3> Comprehension </h3>
+        <h2> Test 3 </h2>
 
         <form method="POST">
             <br>
             <h4>Choose the correct response :</h4>
             <br>
-            <legend> 1: The narrator isn't afraid of spiders. </legend>
-            <input type="radio" name="x1" value="1"> True <?php if(isset($_POST['x1']) AND $_POST['x1'] == "1"){
-                            echo "<font color='red'>  x  </font>"; } ?>
-
-            <input type="radio" name="x1" value="2"> False <?php if(isset($_POST['x1']) AND $_POST['x1'] == "2"){
-                           
-                            echo "<font color='green'>  ✔  </font>"; 
-                           } ?><br>
+            <img src="https://previews.123rf.com/images/olegdudko/olegdudko1802/olegdudko180203717/95725544-student-studying-hard-exam-and-sleeping-on-books-tired-girl-read-difficult-book-in-library.jpg" width="800" height="400">
             <br>
-            <legend> 2: The narrator's friend is terrified of spiders.</legend>
-            <input type="radio" name="x2" value="1"> True <?php if(isset($_POST['x2']) AND $_POST['x2'] == "1"){
+            <legend> #1 Quel est l’impératif du verbe feindre à la première personne du pluriel ?</legend>
+            <input type="radio" name="x1" value="1"> Feignons !  <?php if(isset($_POST['x1']) AND $_POST['x1'] == "1"){
+                
                             echo "<font color='green'>  ✔  </font>"; } ?>
+                            <br>
 
-            <input type="radio" name="x2" value="2"> False <?php if(isset($_POST['x2']) AND $_POST['x2'] == "2"){
+            <input type="radio" name="x1" value="2"> Feins !  <?php if(isset($_POST['x1']) AND $_POST['x1'] == "2"){
+                           
+                            echo "<font color='red'>  x  </font>"; 
+                           } ?><br>
+             <input type="radio" name="x1" value="3"> Feignez !  <?php if(isset($_POST['x1']) AND $_POST['x1'] == "3"){
+                           
+                            echo "<font color='red'>  x  </font>"; 
+                           } ?>
+            <br>
+             <input type="radio" name="x1" value="4"> Feindez !  <?php if(isset($_POST['x1']) AND $_POST['x1'] == "4"){
+                           
+                            echo "<font color='red'>  x  </font>"; 
+                           } ?>
+                           <br>
+                           <br>
+
+                           <img src="https://static.lpnt.fr/images/2013/07/27/revocation-edit-nantes-1692082-jpg_1603185_660x281.JPG" width="800" height="400">
+            <legend> #2 Quel roi de France proclama l’Édit de Nantes ?</legend>
+            <input type="radio" name="x2" value="1"> Louis XIV <?php if(isset($_POST['x2']) AND $_POST['x2'] == "1"){
+                            echo "<font color='red'>  x  </font>"; } ?>
+<br>
+            <input type="radio" name="x2" value="2"> François Ier <?php if(isset($_POST['x2']) AND $_POST['x2'] == "2"){
+                             echo "<font color='red'>  x  </font>"; } ?><br>
+                            <input type="radio" name="x2" value="3"> Henri IV <?php if(isset($_POST['x2']) AND $_POST['x2'] == "3"){
+                            echo "<font color='green'>  ✔  </font>"; } ?><br>
+                            <input type="radio" name="x2" value="4"> Louis XIII <?php if(isset($_POST['x2']) AND $_POST['x2'] == "4"){
                             echo "<font color='red'>  x  </font>"; } ?><br>
             <br>
-            <legend> 3: When she sees a spider, she calls the police.</legend>
-            <input type="radio" name="x3" value="1"> True <?php if(isset($_POST['x3']) AND $_POST['x3'] == "1"){
-                            echo "<font color='red'>  x  </font>"; } ?>
-            <input type="radio" name="x3" value="2"> False <?php if(isset($_POST['x3']) AND $_POST['x3'] == "2"){
+
+            <img src="https://us.123rf.com/450wm/rouslan/rouslan1802/rouslan180200086/95565339-ancien-buste-du-dieu-du-nil.jpg?ver=6" width="800" height="400">
+            <legend> #3 À quel écrivain attribue-t-on la rédaction de l’Illiade et l’Odyssée ?</legend>
+            <input type="radio" name="x3" value="1"> Virgile <?php if(isset($_POST['x3']) AND $_POST['x3'] == "1") {
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+            <input type="radio" name="x3" value="2"> Homère <?php if(isset($_POST['x3']) AND $_POST['x3'] == "2"){
                             
-                            echo "<font color='green'>  ✔  </font>"; 
+                            echo "<font color='green'>  ✔  </font>";
+                           } ?> <br>
+                           <input type="radio" name="x3" value="3"> Euripide <?php if(isset($_POST['x3']) AND $_POST['x3'] == "3"){
+                            
+                            echo "<font color='red'>  x  </font>"; 
+                           } ?> <br>
+                           <input type="radio" name="x3" value="4"> Sophocle <?php if(isset($_POST['x3']) AND $_POST['x3'] == "4"){
+                            
+                            echo "<font color='red'>  x  </font>";
                            } ?> <br>
             <br>
-            <legend> 4: The narrator's friend suffers from a phobia. </legend>
-            <input type="radio" name="x4" value="1"> True <?php if(isset($_POST['x4']) AND $_POST['x4'] == "1"){
-                            echo "<font color='green'>  ✔  </font>"; } ?>
-
-            <input type="radio" name="x4" value="2"> False <?php if(isset($_POST['x4']) AND $_POST['x4'] == "2"){
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_France.svg/1280px-Flag_of_France.svg.png" width="800" height="400">
+            <legend>  #4 Qui s’est déclaré « premier flic de France » ?</legend>
+            <input type="radio" name="x4" value="1"> Léon Blum <?php if(isset($_POST['x4']) AND $_POST['x4'] == "1"){
+                            echo "<font color='red'>  x  </font>"; } ?>
+<br>
+            <input type="radio" name="x4" value="2"> Charles de Gaulle <?php if(isset($_POST['x4']) AND $_POST['x4'] == "2"){
+                            
+                            echo "<font color='red'>  x   </font>"; 
+                           } ?><br>
+                           <input type="radio" name="x4" value="3"> Aristide   <?php if(isset($_POST['x4']) AND $_POST['x4'] == "3"){
                             
                             echo "<font color='red'>  x  </font>"; 
                            } ?><br>
+                           <input type="radio" name="x4" value="4">  Georges Clemenceau  <?php if(isset($_POST['x4']) AND $_POST['x4'] == "4"){
+                            
+                            echo "<font color='green'>  ✔  </font>";
+                           } ?><br>
             <br>
-            <legend> 5: She goes to see a specialist doctor.</legend>
-            <input type="radio" name="x5" value="1"> True <?php if(isset($_POST['x5']) AND $_POST['x5'] == "1"){
+             <img src="https://aws.vdkimg.com/film/9/0/7/7/907764_backdrop_scale_1280xauto.jpg" width="800" height="400">
+            <legend> #5 Quel acteur américain incarne le héros du film de Christopher Nolan de 2014 « Interstellar » ?</legend>
+            <input type="radio" name="x5" value="1"> Léonardo DiCaprio <?php if(isset($_POST['x5']) AND $_POST['x5'] == "1"){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+            <input type="radio" name="x5" value="2"> Brad Pitt <?php if(isset($_POST['x5']) AND $_POST['x5'] == "2"){
+                            echo "<font color='red'>  x  </font>"; } ?>
+            <br>
+            <input type="radio" name="x5" value="3"> Matthew MacConaughey <?php if(isset($_POST['x5']) AND $_POST['x5'] == "3"){
                             echo "<font color='green'>  ✔  </font>"; } ?>
-            <input type="radio" name="x5" value="2"> False <?php if(isset($_POST['x5']) AND $_POST['x5'] == "2"){
+            <br>
+            <input type="radio" name="x5" value="4"> Tom Cruise <?php if(isset($_POST['x5']) AND $_POST['x5'] == "4"){
                             echo "<font color='red'>  x  </font>"; } ?>
             <br>
             <br>
-            <legend> 6: They use the behavioural approach to cure her phobia. </legend>
-            <input type="radio" name="x6" value="1"> True <?php if(isset($_POST['x6']) AND $_POST['x6'] == "1"){
+
+            <img src="https://img.maxisciences.com/article/1024/riviere/fleuve_ca55317de9bec178208d30f0081527006c36fa4a.jpg" width="800" height="400">            <legend> #6 Quel est le plus long fleuve coulant sur le territoire de la France ?</legend>
+            <input type="radio" name="x6" value="1"> Le Rhône  <?php if(isset($_POST['x6']) AND $_POST['x6'] == "1"){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+            <input type="radio" name="x6" value="2"> La Loire <?php if(isset($_POST['x6']) AND $_POST['x6'] == "2"){
                             echo "<font color='green'>  ✔  </font>"; } ?>
-            <input type="radio" name="x6" value="2"> False <?php if(isset($_POST['x6']) AND $_POST['x6'] == "2"){
+            <br>
+            <input type="radio" name="x6" value="3"> Le Rhin <?php if(isset($_POST['x6']) AND $_POST['x6'] == "3") {
+                            echo "<font color='red'>  x  </font>"; } ?>
+            <br>
+            <input type="radio" name="x6" value="4"> La Seine <?php if(isset($_POST['x6']) AND $_POST['x6'] == "4"){
+                            echo "<font color='red'>  x  </font>"; } ?>
+            <br>
+            <br>
+            <img src="https://www.costacruises.eu/content/dam/costa/inventory-assets/ports/PIE/pie-san-pietroburgo-port-1.jpg.image.1480.1110.high.jpg" width="800" height="400">
+            <legend> #7 Le drapeau russe est blanc, bleu et…?</legend>
+            <input type="radio" name="x7" value="1"> Rouge <?php if(isset($_POST['x7']) AND $_POST['x7'] == "1"){
+                            echo "<font color='green'>  ✔  </font>"; } ?><br>
+            <input type="radio" name="x7" value="2"> Jaune <?php if(isset($_POST['x7']) AND $_POST['x7'] == "2"){
+                            echo "<font color='red'>  x </font>"; } ?>
+            <br>
+            <input type="radio" name="x7" value="3"> Vert <?php if(isset($_POST['x7']) AND $_POST['x7'] == "3"){
+                            echo "<font color='red'>  x  </font>"; } ?>
+            <br>
+            <input type="radio" name="x7" value="4"> Noir <?php if(isset($_POST['x7']) AND $_POST['x7'] == "4"){
                             echo "<font color='red'>  x </font>"; } ?>
             <br>
             <br>
-            <legend> 7: The psychiatrist shows her a spider that is not real.</legend>
-            <input type="radio" name="x7" value="1"> True <?php if(isset($_POST['x7']) AND $_POST['x7'] == "1"){
+<img src="http://clemi.ac-dijon.fr/wp-content/uploads/2016/09/Papier_Journal_papillon-1038x576.jpg" width="800" height="400">
+            <legend> #8 Quel journal a été attaqué par des terroristes islamistes en janvier 2015 ?</legend>
+            <input type="radio" name="x8" value="1"> La libération <?php if(isset($_POST['x8']) AND $_POST['x8'] == "1"){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+            <input type="radio" name="x8" value="2"> Le Monde <?php if(isset($_POST['x8']) AND $_POST['x8'] == "2"){
+                            echo "<font color='red'>  x  </font>"; } ?>
+            <br>
+            <input type="radio" name="x8" value="3"> Le Figaro <?php if(isset($_POST['x8']) AND $_POST['x8'] == "3"){
+                            echo "<font color='red'>  x  </font>"; } ?>
+            <br>
+            <input type="radio" name="x8" value="4"> Charlie Hebdo <?php if(isset($_POST['x8']) AND $_POST['x8'] == "4"){
                             echo "<font color='green'>  ✔  </font>"; } ?>
-            <input type="radio" name="x7" value="2"> False <?php if(isset($_POST['x7']) AND $_POST['x7'] == "2"){
+            <br>
+            <br>
+            <img src="https://www.sudradio.fr/wp-content/uploads/2017/02/laine-merinos-australie_5775795.jpeg" width="800" height="400">
+            <legend> #9 Quel animal andin de la famille des camélidés est élevé pour sa laine ?</legend>
+            <input type="radio" name="x9" value="1"> Le lama  <?php if(isset($_POST['x9']) AND $_POST['x9'] == "1"){
+                            echo "<font color='green'>  ✔  </font>"; } ?><br>
+            <input type="radio" name="x9"  value="2"> Le yak  <?php if(isset($_POST['x9']) AND $_POST['x9'] == "2"){
+                            echo "<font color='red'>  x  </font>"; } ?>
+            <br>
+             <input type="radio" name="x9" value="3"> Le chameau  <?php if(isset($_POST['x9']) AND $_POST['x9'] == "3")  {
+                            echo "<font color='red'>  x  </font>"; } ?>
+            <br>
+             <input type="radio" name="x9" value="4"> Le buffle  <?php if(isset($_POST['x9']) AND $_POST['x9'] == "4"){
                             echo "<font color='red'>  x  </font>"; } ?>
             <br>
             <br>
-            <legend> 8: The behavioural approach doesn't work.</legend>
-            <input type="radio" name="x8" value="1"> True <?php if(isset($_POST['x8']) AND $_POST['x8'] == "1"){
+            <img src="https://www.sky.com/assets2/berlioz-symphonie-fantastique-panel-9e4f1be3jpg" width="800" height="400">
+            <legend> #10 À quel compositeur doit-on les bandes-son de films comme « Il était une fois en Amérique »,<br> « Pour une poignée de dollars », ou le « Le clan des Siciliens » ?</legend>
+            <input type="radio" name="x10" value="1"> John Barry<?php if(isset($_POST['x10']) AND $_POST['x10'] == "1"){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
+            <input type="radio" name="x10" value="2"> Vladimir Cosma  <?php if(isset($_POST['x10']) AND $_POST['x10'] == "2"){
                             echo "<font color='red'>  x  </font>"; } ?>
-            <input type="radio" name="x8" value="2"> False <?php if(isset($_POST['x8']) AND $_POST['x8'] == "2"){
+            <br>
+             <input type="radio" name="x10" value="3"> Hans Zimmer <?php if(isset($_POST['x10']) AND $_POST['x10'] == "3") {
+                            echo "<font color='red'>  x  </font>"; } ?>
+            <br>
+             <input type="radio" name="x10" value="4"> Ennio Morricone  <?php if(isset($_POST['x10']) AND $_POST['x10'] == "4"){
                             echo "<font color='green'>  ✔  </font>"; } ?>
             <br>
             <br>
             <input class="btn btn-outline-dark pl-5 pr-5" type="submit" name="submit" value="Finish">
-            <input class="btn btn-outline-dark pl-5 pr-5" type="reset" name="submit" value="Try again">
 
         </form>
-        
 
     </section>
     <!--================ End Course Details Area =================-->

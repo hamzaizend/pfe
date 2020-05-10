@@ -1,7 +1,33 @@
 <?php
 session_start();
 
-$bdd = new PDO('mysql:host=localhost;dbname=pfe','root','root');
+include "connexion.inc.php";
+
+
+if (!isset($_SESSION['id'])) {
+  $_SESSION['flash']['danger']="Pour accéder au exercices veuillez vous connecter";
+  header('Location: index.php');
+  exit();
+}
+
+$requete= $bdd->prepare('SELECT id FROM test WHERE id_user=? and num=? and etat=?');
+$requete->execute(array($_SESSION['id'],12,'Test Reussi'));
+$ok=$requete->rowCount();
+if($ok){
+    $_SESSION['flash']['danger']="Vous avez déja réussi ce test vous pouvez passé au cours suivant";
+    header('Location: course-general-english.php');
+    exit();
+}
+
+$requete= $bdd->prepare('SELECT id FROM test WHERE id_user=? and num=? and etat=?');
+$requete->execute(array($_SESSION['id'],11,'Test Reussi'));
+$ok=$requete->rowCount();
+if(!$ok){
+    $_SESSION['flash']['danger']="Vous devez d'abbord passé et reussir le 3eme test de la section General english";
+    header('Location: course-general-english.php');
+    exit();
+}
+
 
 
 $score = 0;
@@ -9,40 +35,56 @@ $score = 0;
 if(isset($_POST['submit'])){
   
 
-if(isset($_POST['x3']) AND !isset($_POST['x1']) AND !isset($_POST['x2'])){
+if(isset($_POST['x1']) AND $_POST['x1'] == "3"){
   $score++;
 }
-if(isset($_POST['x5']) AND !isset($_POST['x4']) AND !isset($_POST['x6'])){
+if(isset($_POST['x2']) AND $_POST['x2'] == "2"){
   $score++;
 }
-if(isset($_POST['x9']) AND !isset($_POST['x7']) AND !isset($_POST['x8']) ){
+if(isset($_POST['x3']) AND $_POST['x3'] == "3" ){
   $score++;
 }
-if(isset($_POST['x10']) AND !isset($_POST['x11']) AND !isset($_POST['x12'])){
+if(isset($_POST['x4']) AND $_POST['x4'] == "1"){
   $score++;
 }
-if(isset($_POST['x13']) AND !isset($_POST['x14']) AND !isset($_POST['x15'])){
+if(isset($_POST['x5']) AND $_POST['x5'] == "1"){
   $score++;
 }
-if(isset($_POST['x18']) AND !isset($_POST['x17']) AND !isset($_POST['x16'])){
+if(isset($_POST['x6']) AND $_POST['x6'] == "3"){
   $score++;
 }
-if(isset($_POST['x20']) AND !isset($_POST['x19']) AND !isset($_POST['x21'])){
+if(isset($_POST['x7']) AND $_POST['x7'] == "2"){
   $score++;
 }
-if(isset($_POST['x24']) AND !isset($_POST['x23']) AND !isset($_POST['x22'])){
+if(isset($_POST['x8']) AND $_POST['x8'] == "3"){
   $score++;
 }
 
 $resultat = "Votre score est de ".$score." /8";
 if($score == 8){
-  $res = "Félécitations vous avez réussi le Test ";
-  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
-  $insert->execute(array(12,'Test Réussi'));
+  $res_success = "Félécitations vous avez réussi le test ";
+  $insert=$bdd->prepare("INSERT INTO test(id_user,num,etat) VALUES(?,?,?)");
+  $delete=$bdd->prepare("DELETE FROM test WHERE etat=? AND id_user=? AND num=?");
+  $insert->execute(array($_SESSION['id'],12,'Test Reussi'));
+  $delete->execute(array('Test Pas Reussi',$_SESSION['id'],12));
+  $_SESSION['flash']['success']=$res_success ." <br> ".$resultat;
+  header('Location: course-general-english.php');
+  exit();
 }else{
-  $res = "EMM Dommage , vous pouvez réessayer ";
-  $insert=$bdd->prepare("INSERT INTO test(num,etat) VALUES(?,?)");
-  $insert->execute(array(12,'Test Pas Réussi'));
+  $res_fail = "EMM Dommage , vous pouvez réessayer ";
+    $find=$bdd->prepare("SELECT id FROM test WHERE id_user=? AND num=? AND etat=?");
+    $find->execute(array($_SESSION['id'],12,'Test Pas Reussi'));
+    $ok=$find->rowCount();
+  if(!$ok){ 
+    $insert=$bdd->prepare("INSERT INTO test(id_user,num,etat) VALUES(?,?,?)");
+    $insert->execute(array($_SESSION['id'],12,'Test Pas Reussi'));
+    $_SESSION['flash']['danger']=$res_fail ." <br> ".$resultat;
+  }
+  else{
+  $updatereq=$bdd->prepare("UPDATE test SET etat = Test Pas Reussi WHERE id_user=? and num=? ");
+  $updatereq->execute(array($_SESSION['id'],12));
+  $_SESSION['flash']['danger']=$res_fail ." <br> ".$resultat;
+  }
 }
 
 }
@@ -95,6 +137,17 @@ input {
   </head>
 
   <body>
+  <?php if(isset($_SESSION['flash'])) : ?>
+            
+            <?php foreach($_SESSION['flash'] as $type => $message):?>
+                <div class="aler alert-<?= $type ?>"> 
+                    <div style="font-family:Rubik,sans-serif;" class="pt-2 pb-2 lead text-align-center text-center border "> <?= $message ?> </div>
+                </div> 
+            <?php  endforeach ?>
+    
+            <?php unset($_SESSION['flash']); ?>
+    
+        <?php endif ?>
     <!--================ Start Header Menu Area =================-->
     <header class="header_area white-header">
       <div class="main_menu">
@@ -134,13 +187,16 @@ input {
               <span class="icon-bar"></span>
             </button>
             <!-- Collect the nav links, forms, and other content for toggling -->
+            <?php if (isset($_SESSION['id'])) : ?>
+                        <b style="font-family:Rubik; color: #FCC632;"class=" visible lead"> Bienvenue Monsieur : <?= $_SESSION['name'] ?> </b>
+                    <?php endif; ?>
             <div
               class="collapse navbar-collapse offset"
               id="navbarSupportedContent"
             >
               <ul class="nav navbar-nav menu_nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link" href="home.php">Home</a>
+                  <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="about-us.php">About</a>
@@ -160,17 +216,23 @@ input {
                       <a class="nav-link" href="courses.php">Courses</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="course-details.php"
-                        >Course Details</a
-                      >
+                      <a class="nav-link" href="course-quizes.php">General culture</a>
                     </li>
-                    
                   </ul>
                 </li>
-                
+                <li class="nav-item">
+                            <?php if (isset($_SESSION['id'])) : ?>
+                                <a class="nav-link" href="calendrier/3a-calendar.php">Calendrier</a>
+                            <?php endif; ?>
+                            </li>
                 <li class="nav-item">
                   <a class="nav-link" href="contact.php">Contact</a>
                 </li>
+                <li class="nav-item">
+                                <?php if(isset($_SESSION['id'])) : ?>
+                                <a class="nav-link" href="deco.php">Log-out</a>
+                                <?php endif; ?>
+                            </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link search" id="search">
                     <i class="ti-search"></i>
@@ -194,7 +256,7 @@ input {
               <div class="banner_content text-center">
                 <h2>Course Details</h2>
                 <div class="page_link">
-                  <a href="home.php">Home</a>
+                  <a href="index.php">Home</a>
                   <a href="courses.php">Courses</a>
                   <a href="course-details.php">Courses Details</a>
                   <a href="course-detail.php">Grammar</a>
@@ -209,7 +271,7 @@ input {
     <!--================End Home Banner Area =================-->
 
     <!--================ Start Course Details Area =================-->
-    <section class="course_details_area section_gap"> 
+    <section class="course_details_area section_gap bg-light text-center lead"> 
                         
                            <h3> Writing : A message to say you're late - preparation : </h3>
                           
@@ -220,128 +282,101 @@ input {
                            
                            <h4>Choose the correct response :</h4>
                            <br>
-                           <legend> 1: The king of the pumpkins </legend>
+                           <legend> <b> 1: </b> The king of the pumpkins </legend>
                            
-                           <input type="radio" name="x1" > definitly lives in the middle of the forest . <?php if(isset($_POST['x1'])){
+                           <input type="radio" name="x1" value="1"> definitly lives in the middle of the forest . <?php if(isset($_POST['x1']) AND $_POST['x1'] == "1"){
                             echo "<font color='red'>  x  </font>"; } ?><br>
                         
-                           <input type="radio" name="x2" > lives in a field . <?php if(isset($_POST['x2'])){
+                           <input type="radio" name="x1" value="2"> lives in a field . <?php if(isset($_POST['x1']) AND $_POST['x1'] == "2"){
                            
                             echo "<font color='red'>  x  </font>"; 
                            } ?><br>
-                           <input type="radio" name="x3" > might live in the middle of the forest . <?php if(isset($_POST['x3'])){
+                           <input type="radio" name="x1" value="3"> might live in the middle of the forest . <?php if(isset($_POST['x1']) AND $_POST['x1'] == "3"){
                             echo "<font color='green'>  ✔  </font>"; } ?> <br>   
                            <br>
-                           <legend> 2: The narrator </legend>
-                           <input type="radio" name="x4" >  believes everything his mother says .<?php if(isset($_POST['x4'])){
+                           <legend> <b> 2: </b> The narrator </legend>
+                           <input type="radio" name="x2" value="1">  believes everything his mother says .<?php if(isset($_POST['x2']) AND $_POST['x2'] == "1"){
                             echo "<font color='red'>  x  </font>"; } ?><br>
                         
-                           <input type="radio" name="x5" > believes his mother's story about the king of the pumpkins . <?php if(isset($_POST['x5'])){
+                           <input type="radio" name="x2" value="2"> believes his mother's story about the king of the pumpkins . <?php if(isset($_POST['x2']) AND $_POST['x2'] == "2"){
                             echo "<font color='green'>  ✔  </font>"; } ?><br>
-                           <input type="radio" name="x6" > never believes adults . <?php if(isset($_POST['x6'])){
+                           <input type="radio" name="x2" value="3"> never believes adults . <?php if(isset($_POST['x2']) AND $_POST['x2'] == "3"){
                             
                             echo "<font color='red'>  x  </font>"; 
                            } ?> <br>  
                            <br>
-                            <legend> 3: The mother </legend>
-                           <input type="radio" name="x7" > knows lots of facts .<?php if(isset($_POST['x7'])){
+                            <legend> <b> 3: </b> The mother </legend>
+                           <input type="radio" name="x3" value="1"> knows lots of facts .<?php if(isset($_POST['x3']) AND $_POST['x3'] == "1"){
                             echo "<font color='red'>  x  </font>"; } ?><br>
                         
-                           <input type="radio" name="x8" > talks nonsense . <?php if(isset($_POST['x8'])){
+                           <input type="radio" name="x3" value="2" > talks nonsense . <?php if(isset($_POST['x3']) AND $_POST['x3'] == "2"){
                             
                             echo "<font color='red'>  x  </font>"; 
                            } ?><br>
-                           <input type="radio" name="x9" > tells lots of stories .  <?php if(isset($_POST['x9'])){
+                           <input type="radio" name="x3" value="3" > tells lots of stories .  <?php if(isset($_POST['x3']) AND $_POST['x3'] == "3"){
                             echo "<font color='green'>  ✔  </font>"; } ?><br>  
                            <br> 
-                           <legend> 4: Mog</legend>
-                           <input type="radio" name="x10" > has a special power .<?php if(isset($_POST['x10'])){
+                           <legend> <b> 4: </b> Mog</legend>
+                           <input type="radio" name="x4" value="1"> has a special power .<?php if(isset($_POST['x4']) AND $_POST['x4'] == "1"){
                             echo "<font color='green'>  ✔  </font>"; } ?><br>
                         
-                           <input type="radio" name="x11" > is an ordinary black cat .<?php if(isset($_POST['x11'])){
+                           <input type="radio" name="x4" value="2"> is an ordinary black cat .<?php if(isset($_POST['x4']) AND $_POST['x4'] == "2"){
                             
                             echo "<font color='red'>  x  </font>"; 
                            } ?><br>
-                           <input type="radio" name="x12" > is a witch .  <?php if(isset($_POST['x12'])){
+                           <input type="radio" name="x4" value="3"> is a witch .  <?php if(isset($_POST['x4']) AND $_POST['x4'] == "3"){
                             echo "<font color='red'>  x  </font>"; } ?><br>  
                            <br>  
-                           <legend> 5: Mog and the narrator </legend>
-                           <input type="radio" name="x13" > decide to try and find the king of the pumpkins .<?php if(isset($_POST['x13'])){
+                           <legend> <b> 5: </b> Mog and the narrator </legend>
+                           <input type="radio" name="x5" value="1"> decide to try and find the king of the pumpkins .<?php if(isset($_POST['x5']) AND $_POST['x5'] == "1") {
                             echo "<font color='green'>  ✔  </font>"; } ?><br>
                         
-                           <input type="radio" name="x14" > go for a walk in the woods .<?php if(isset($_POST['x14'])){
+                           <input type="radio" name="x5" value="2"> go for a walk in the woods .<?php if(isset($_POST['x5']) AND $_POST['x5'] == "2"){
                             
                             echo "<font color='red'>  x  </font>"; 
                            } ?><br>
-                           <input type="radio" name="x15" > go to visit their grandmother .  <?php if(isset($_POST['x15'])){
+                           <input type="radio" name="x5" value="3"> go to visit their grandmother .  <?php if(isset($_POST['x5']) AND $_POST['x5'] == "3"){
                             echo "<font color='red'>  x  </font>"; } ?><br>  
                            <br>
-                           <legend> 6: The narrator </legend>
-                           <input type="radio" name="x16" > is an elf .<?php if(isset($_POST['x16'])){
+                           <legend> <b> 6: </b> The narrator </legend>
+                           <input type="radio" name="x6" value="1"> is an elf .<?php if(isset($_POST['x6']) AND $_POST['x6'] == "1"){
                             echo "<font color='red'>  x  </font>"; } ?><br>
                         
-                           <input type="radio" name="x17" > is an ordinary child .<?php if(isset($_POST['x17'])){
+                           <input type="radio" name="x6" value="2"> is an ordinary child .<?php if(isset($_POST['x6']) AND $_POST['x6'] == "2"){
                             
                             echo "<font color='red'>  x  </font>"; 
                            } ?><br>
-                           <input type="radio" name="x18" > looks like an elf .  <?php if(isset($_POST['x18'])){
+                           <input type="radio" name="x6" value="3"> looks like an elf .  <?php if(isset($_POST['x6']) AND $_POST['x6'] == "3"){
                             echo "<font color='green'>  ✔  </font>"; } ?><br>  
                            <br>
-                           <legend> 7: The narrator</legend>
-                           <input type="radio" name="x19" > doesn't know what the king of the pumpkins does .<?php if(isset($_POST['x19'])){
+                           <legend> <b> 7: </b> The narrator</legend>
+                           <input type="radio" name="x7" value="1"> doesn't know what the king of the pumpkins does .<?php if(isset($_POST['x7']) AND $_POST['x7'] == "1"){
                             echo "<font color='red'>  x  </font>"; } ?><br>
                         
-                           <input type="radio" name="x20" > invents a story about what the king of the pumpkins does .<?php if(isset($_POST['x20'])){
+                           <input type="radio" name="x7" value="2"> invents a story about what the king of the pumpkins does .<?php if(isset($_POST['x7']) AND $_POST['x7'] == "2"){
                             
                             echo "<font color='green'>  ✔  </font>"; 
                            } ?><br>
-                           <input type="radio" name="x21" > knows what the king of the pumpkins does .  <?php if(isset($_POST['x21'])){
+                           <input type="radio" name="x7" value="3"> knows what the king of the pumpkins does .  <?php if(isset($_POST['x7']) AND $_POST['x7'] == "3"){
                             echo "<font color='red'>  x  </font>"; } ?><br>  
                            <br>
-                           <legend> 8: In the last line, the narrator suggests that stories </legend>
-                           <input type="radio" name="x22" > are all nonsense  .<?php if(isset($_POST['x22'])){
-                            echo "<font color='red'>  *  </font>"; } ?><br>
+                           <legend> <b> 8: </b> In the last line, the narrator suggests that stories </legend>
+                           <input type="radio" name="x8" value="1"> are all nonsense  .<?php if(isset($_POST['x8']) AND $_POST['x8'] == "1"){
+                            echo "<font color='red'>  x  </font>"; } ?><br>
                         
-                           <input type="radio" name="x23" > are like lies  .<?php if(isset($_POST['x23'])){
+                           <input type="radio" name="x8" value="2"> are like lies  .<?php if(isset($_POST['x8']) AND $_POST['x8'] == "2"){
                             
                             echo "<font color='red'>  x  </font>"; 
                            } ?><br>
-                           <input type="radio" name="x24" > can have a meaning even if they are not true .  <?php if(isset($_POST['x24'])){
+                           <input type="radio" name="x8" value="3"> can have a meaning even if they are not true .  <?php if(isset($_POST['x8']) AND $_POST['x8'] == "3"){
                             echo "<font color='green'>  ✔  </font>"; } ?><br>  
                            <br>
 
-
-                          
-                               <?php echo $resultat; ?> <br>
-                               <?php echo $res ; ?><br>
-
-                           <input type="submit" name="submit" value="Finish">
-                            <?php echo $resultatt; ?><br>
-                           <input type="reset" name="reset" value="try again">
-
-
-
-
-
-
+                           <input class="btn btn-outline-dark pl-5 pr-5" type="submit" name="submit" value="Finish">
+                           <input class="btn btn-outline-dark pl-5 pr-5" type="reset" name="reset" value="Try again">
 
                          </form>  
                         
-           
-                    
-
-                        
-                        
-
-                      
-
-                           
-                       
-                  
-               
-
-
-                
     </section>
     <!--================ End Course Details Area =================-->
 
